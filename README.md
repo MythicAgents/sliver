@@ -24,7 +24,7 @@ cd /path/to/Mythic
 # Ensure latest updates are there
 git pull && sudo make && sudo ./mythic-cli start
 # WARNING: This currently takes several minutes due to a grpc bug
-sudo ./mythic-cli install github https://github.com/spenceradolph/sliver
+sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 
 # Browse to Mythic and Generate a Payload, select 'sliver' as the OS
 # Upload the mythic.cfg file, continue through prompts and generate
