@@ -7,7 +7,7 @@ This is a set of [Mythic](https://docs.mythic-c2.net/) agents for interacting wi
 
 The `sliverapi` payload doesn't build anything, but instead generates a "callback" within Mythic that allows you to interact with Sliver's API. This requires you to generate an [operator configuration file](https://sliver.sh/docs?name=Multi-player+Mode). This config file is the only build parameter, and once built, a callback will immediately appear and you can start tasking like normal.
 
-A `sliverimplant` callback is instantiated when tasking a `use -id <sliver_implant_id>` from within the sliverapi callback. 
+A `sliverimplant` callback is instantiated when tasking a `use -id <sliver_implant_id>` from within the sliverapi callback.
 
 Checkout this [blog](./blog/blog.md) about my experience creating them.
 
@@ -91,6 +91,7 @@ sudo ./mythic-cli install github https://github.com/spenceradolph/sliver
     - websites
     - wg
     - operators
+
 </details>
 
 <details>
@@ -140,6 +141,7 @@ sudo ./mythic-cli install github https://github.com/spenceradolph/sliver
     - terminate✅
     - upload✅
     - whoami✅
+
 </details>
 
 ## How to install an agent in this format within Mythic
@@ -158,6 +160,7 @@ Now, you might be wondering _when_ should you or a user do this to properly add 
 ## Local Development Notes
 
 - VSCode devcontainer
+
   - If using vscode, it will prompt to auto build and attach to the Docker file
     - Warning: building the container takes a few minutes!
   - Auto adds the suggested extensions / settings
@@ -186,5 +189,3 @@ Once inside the container and rabbitmq set, this will run the agent side and upd
 cd ./Payload_Type/sliverapi/
 python3 main.py
 ```
-
-Another note: the sliverimplant Dockerfile is built from the sliverapi .docker
