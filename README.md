@@ -23,7 +23,6 @@ sudo /root/sliver-server operator --name mythic --lhost <ip> --save mythic.cfg &
 cd /path/to/Mythic
 # Ensure latest updates are there
 git pull && sudo make && sudo ./mythic-cli start
-# WARNING: This currently takes several minutes due to a grpc bug
 sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 
 # Browse to Mythic and Generate a Payload, select 'sliver' as the OS
@@ -160,7 +159,6 @@ Now, you might be wondering _when_ should you or a user do this to properly add 
 ## Local Development Notes
 
 - VSCode devcontainer
-
   - If using vscode, it will prompt to auto build and attach to the Docker file
     - Warning: building the container takes a few minutes!
   - Auto adds the suggested extensions / settings
