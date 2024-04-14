@@ -64,7 +64,7 @@ jobs:
           context: Payload_Type/sliverapi
           file: Payload_Type/sliverapi/Dockerfile
           tags: |
-            ${{ env.REGISTRY }}/MythicAgents/sliver:sliverapi.${{ env.VERSION }}
+            ${{ env.REGISTRY }}/mythicagents/sliver:sliverapi.${{ env.VERSION }}
           push: ${{ github.ref_type == 'tag' }}
           # These container metadata labels allow configuring the package in Github
           # packages. The source will link the package to this Github repository
@@ -80,7 +80,7 @@ jobs:
           context: Payload_Type/sliverimplant
           file: Payload_Type/sliverimplant/Dockerfile
           tags: |
-            ${{ env.REGISTRY }}/MythicAgents/sliver:sliverimplant.${{ env.VERSION }}
+            ${{ env.REGISTRY }}/mythicagents/sliver:sliverimplant.${{ env.VERSION }}
           push: ${{ github.ref_type == 'tag' }}
           # These container metadata labels allow configuring the package in Github
           # packages. The source will link the package to this Github repository
@@ -108,14 +108,14 @@ jobs:
         with:
           file: config.json
           field: remote_images.sliverapi
-          value: ${{env.REGISTRY}}/MythicAgents/sliver:sliverapi.${{ env.VERSION }}
+          value: ${{env.REGISTRY}}/mythicagents/sliver:sliverapi.${{ env.VERSION }}
 
       - name: Update config.json version for sliverimplant
         uses: jossef/action-set-json-field@v2.1
         with:
           file: config.json
           field: remote_images.sliverimplant
-          value: ${{env.REGISTRY}}/MythicAgents/sliver:sliverimplant.${{ env.VERSION }}
+          value: ${{env.REGISTRY}}/mythicagents/sliver:sliverimplant.${{ env.VERSION }}
 
       # Push the changes to the Dockerfile
       - name: Push the updated base Dockerfile image reference changes
@@ -171,7 +171,7 @@ jobs:
           context: Payload_Type/sliverapi
           file: Payload_Type/sliverapi/Dockerfile
           tags: |
-            ${{ env.REGISTRY }}/MythicAgents/sliver:sliverapi.${{ env.VERSION }}
+            ${{ env.REGISTRY }}/mythicagents/sliver:sliverapi.${{ env.VERSION }}
           push: ${{ github.ref_type == 'tag' }}
           # These container metadata labels allow configuring the package in Github
           # packages. The source will link the package to this Github repository
@@ -187,7 +187,7 @@ jobs:
           context: Payload_Type/sliverimplant
           file: Payload_Type/sliverimplant/Dockerfile
           tags: |
-            ${{ env.REGISTRY }}/MythicAgents/sliver:sliverimplant.${{ env.VERSION }}
+            ${{ env.REGISTRY }}/mythicagents/sliver:sliverimplant.${{ env.VERSION }}
           push: ${{ github.ref_type == 'tag' }}
           # These container metadata labels allow configuring the package in Github
           # packages. The source will link the package to this Github repository
