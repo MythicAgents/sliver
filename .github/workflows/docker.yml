@@ -36,7 +36,7 @@ env:
 
 jobs:
   # Builds the base container image and pushes it to the container registry
-  agent_build_amd_api:
+  agent_build_amd:
     runs-on: ubuntu-latest
     permissions:
       contents: write
