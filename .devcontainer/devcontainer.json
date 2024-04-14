@@ -1,0 +1,29 @@
+{
+	"name": "slithic_devcontainer",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"mounts": [
+		// useful for git
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,readonly"
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"pylint.args": [
+					"--disable=E1101",
+					"--disable=W0212"
+				]
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-azuretools.vscode-docker",
+				"ms-python.pylint",
+				"golang.go",
+				"ms-vscode.makefile-tools"
+			]
+		}
+	},
+	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+}

@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "SliverApi",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Payload_Type/sliverapi/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/Payload_Type/sliverapi",
+            "consoleTitle": "SliverApi"
+        },
+        {
+            "name": "SliverImplant",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Payload_Type/sliverimplant/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/Payload_Type/sliverimplant",
+            "consoleTitle": "SliverImplant",
+            "justMyCode": false
+        },
+    ],
+    "compounds": [
+        {
+            "name": "SliverApi && SliverImplant",
+            "configurations": [
+                "SliverApi",
+                "SliverImplant"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1 @@
+FROM ghcr.io/mythicagents/sliverimplant:v0.0.0.1
