@@ -27,4 +27,8 @@ COPY --from=builder /grpc_wheel /grpc_wheel
 RUN pip install --no-cache /other_wheels/*
 RUN pip install --no-cache /grpc_wheel/*
 
+WORKDIR /Mythic/
+
+COPY [".", "."]
+
 CMD ["python3", "main.py"]

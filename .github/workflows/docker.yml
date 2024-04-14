@@ -40,7 +40,7 @@ env:
 
 jobs:
   # Builds the base container image and pushes it to the container registry
-  agent_build:
+  agent_build_amd:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -79,12 +79,12 @@ jobs:
             org.opencontainers.image.source=${{ env.IMAGE_SOURCE }}
             org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
             org.opencontainers.image.licenses=${{ env.IMAGE_LICENSE }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
 
   update_files:
     runs-on: ubuntu-latest
     needs:
-      - agent_build
+      - agent_build_amd
     permissions:
       contents: write
       packages: write
@@ -137,3 +137,44 @@ jobs:
 
           # Have the workflow fail in case there are pathspec issues
           pathspec_error_handling: exitImmediately
+  
+  agent_build_arm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4 # ref: https://github.com/marketplace/actions/checkout
+      - name: Log in to the container registry
+        uses: docker/login-action@v3 # ref: https://github.com/marketplace/actions/docker-login
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: 'arm64,arm'
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      # the following are unique to this job
+      - name: Lowercase the server container image name
+        run: echo "AGENT_IMAGE_NAME=${AGENT_IMAGE_NAME,,}" >> ${GITHUB_ENV}
+      - name: Build and push the server container image
+        uses: docker/build-push-action@v5 # ref: https://github.com/marketplace/actions/build-and-push-docker-images
+        with:
+          context: Payload_Type/sliverapi
+          file: Payload_Type/sliverapi/Dockerfile
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.AGENT_IMAGE_NAME }}:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.AGENT_IMAGE_NAME }}:latest
+          push: ${{ github.ref_type == 'tag' }}
+          # These container metadata labels allow configuring the package in Github
+          # packages. The source will link the package to this Github repository
+          labels: |
+            org.opencontainers.image.source=${{ env.IMAGE_SOURCE }}
+            org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
+            org.opencontainers.image.licenses=${{ env.IMAGE_LICENSE }}
+          platforms: linux/arm64
