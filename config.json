@@ -1,11 +1,11 @@
 {
-	"exclude_payload_type": false,
-	"exclude_c2_profiles": true,
-	"exclude_documentation_payload": true,
-	"exclude_documentation_c2": true,
-	"exclude_agent_icons": true,
-	"remote_images": {
-		"sliverapi": "ghcr.io/mythicagents/sliver:v0.0.0.1",
-		"sliverimplant": "ghcr.io/mythicagents/sliver:v0.0.0.1"
-	}
+  "exclude_payload_type": false,
+  "exclude_c2_profiles": true,
+  "exclude_documentation_payload": true,
+  "exclude_documentation_c2": true,
+  "exclude_agent_icons": true,
+  "remote_images": {
+    "sliverapi": "ghcr.io/mythicagents/sliver:v0.0.0.5",
+    "sliverimplant": "ghcr.io/mythicagents/sliver:v0.0.0.5"
+  }
 }
