@@ -73,6 +73,8 @@ jobs:
             org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
             org.opencontainers.image.licenses=${{ env.IMAGE_LICENSE }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Build and push the server container image (implant)
         uses: docker/build-push-action@v5 # ref: https://github.com/marketplace/actions/build-and-push-docker-images
@@ -89,6 +91,8 @@ jobs:
             org.opencontainers.image.description=${{ env.IMAGE_DESCRIPTION }}
             org.opencontainers.image.licenses=${{ env.IMAGE_LICENSE }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   update_files:
     runs-on: ubuntu-latest

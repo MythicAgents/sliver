@@ -1,5 +1,7 @@
 # setup for local testing
 rabbitmq_config.json
+rabbitmq_config.json.kali
+rabbitmq_config.json.ubuntu
 
 __pycache__/
 mythic_go_services*

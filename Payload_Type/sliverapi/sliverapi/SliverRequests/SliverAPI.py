@@ -99,6 +99,23 @@ async def jobs_list(taskData: PTTaskMessageAllData):
 
     return f"{jobs}"
 
+async def version(taskData: PTTaskMessageAllData):
+    client = await create_sliver_client(taskData)
+    version_results = await client.version()
+
+    # TODO: match sliver formatting
+
+    # [*] Client v1.5.42 - 85b0e870d05ec47184958dbcb871ddee2eb9e3df - linux/amd64
+    #     Compiled at 2024-02-28 13:46:53 -0600 CST
+    #     Compiled with go version go1.20.7 linux/amd64
+
+
+    # [*] Server v1.5.42 - 85b0e870d05ec47184958dbcb871ddee2eb9e3df - linux/amd64
+    #     Compiled at 2024-02-28 13:46:53 -0600 CST
+
+    return f"{version_results}"
+
+
 async def jobs_kill(taskData: PTTaskMessageAllData, job_id: int):
     client = await create_sliver_client(taskData)
     kill_response = await client.kill_job(job_id=job_id)
