@@ -40,6 +40,7 @@ class SliverApi(PayloadType):
             Host="SliverAPI",
             Ip=ip,
             IntegrityLevel=3,
+            ExtraInfo=self.uuid,
         ))
         if not create_callback.Success:
             logger.info(create_callback.Error)

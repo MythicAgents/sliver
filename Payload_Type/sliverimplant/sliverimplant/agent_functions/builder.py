@@ -2,7 +2,7 @@ import pathlib
 from mythic_container.PayloadBuilder import *
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
-from sliver import SliverClientConfig, SliverClient
+from sliver import SliverClientConfig, SliverClient, client_pb2
 
 
 class SliverImplant(PayloadType):
@@ -24,38 +24,49 @@ class SliverImplant(PayloadType):
     build_steps = []
     build_parameters = [
         BuildParameter(
-            name="name",
-            description="name",
+            name="sliverconfig_file_uuid",
+            description="sliverconfig_file_uuid",
+            parameter_type=BuildParameterType.String,
+        ),
+        BuildParameter(
+            name="os",
+            description="os",
+            parameter_type=BuildParameterType.String,
+        ),
+        BuildParameter(
+            name="mtls",
+            description="mtls",
             parameter_type=BuildParameterType.String,
         ),
     ]
 
     async def build(self) -> BuildResponse:
-        # Just hope they have this setup already, and not have multiple
-        # sliverapi_payloads = await SendMythicRPCPayloadSearch(MythicRPCPayloadSearchMessage(
-        #     PayloadTypes=['sliverapi'],
-        # ))
-        # sliver_config_uuid = sliverapi_payloads.Payloads[0].BuildParameters[0].Value
-        # filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
-        #     AgentFileId=sliver_config_uuid
-        # ))
-        # config = SliverClientConfig.parse_config(filecontent.Content)
-        # client = SliverClient(config)
-        # await client.connect()
+        os = self.get_parameter('os')
+        mtls = self.get_parameter('mtls')
+        sliverconfig_file_uuid = self.get_parameter('sliverconfig_file_uuid')
 
-        # self.build_parameters
+        if (os == ''):
+            return BuildResponse(status=BuildStatus.Success)
+        
+        filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
+            AgentFileId=sliverconfig_file_uuid
+        ))
+        config = SliverClientConfig.parse_config(filecontent.Content)
+        client = SliverClient(config)
+        await client.connect()
 
-        # implant_config = client_pb2.ImplantConfig(
-        #     IsBeacon=self.build_parameters[''],
-        #     Name="sliver-pytest-1",
-        #     GOARCH="amd64",
-        #     GOOS="linux",
-        #     Format=client_pb2.OutputFormat.EXECUTABLE,
-        #     ObfuscateSymbols=False,
-        #     C2=[client_pb2.ImplantC2(Priority=0, URL="http://localhost:80")],
-        # )
+        implant_config = client_pb2.ImplantConfig(
+            IsBeacon=False,
+            Name=f"{self.uuid}",
+            GOARCH="amd64",
+            GOOS=os,
+            Format=client_pb2.OutputFormat.EXECUTABLE,
+            ObfuscateSymbols=False,
+            C2=[client_pb2.ImplantC2(Priority=0, URL=f"mtls://{mtls}")],
+        )
 
-        # implant = await client.generate_implant(implant_config)
+        implant = await client.generate_implant(implant_config)
+        implant_bytes = implant.File.Data
 
-        resp = BuildResponse(status=BuildStatus.Success)
+        resp = BuildResponse(status=BuildStatus.Success, payload=implant_bytes)
         return resp

@@ -1,7 +1,7 @@
 from tabulate import tabulate
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import SendMythicRPCFileGetContent, MythicRPCFileGetContentMessage
-from sliver import SliverClientConfig, SliverClient
+from sliver import SliverClientConfig, SliverClient, client_pb2
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
@@ -115,7 +115,6 @@ async def version(taskData: PTTaskMessageAllData):
 
     return f"{version_results}"
 
-
 async def jobs_kill(taskData: PTTaskMessageAllData, job_id: int):
     client = await create_sliver_client(taskData)
     kill_response = await client.kill_job(job_id=job_id)
@@ -186,14 +185,14 @@ async def use(taskData: PTTaskMessageAllData, sliver_id: int):
                 payload_type="sliverimplant",
                 uuid=sliver_id,
                 selected_os=sliver_os_table[implant_info.OS],                 
-                description=f"sliver {'beaconing' if isBeacon else 'interactive'} implant for {sliver_id}",
+                description=f"(no download) using sliver {'beaconing' if isBeacon else 'interactive'} implant for {sliver_id}",
                 build_parameters=[],
                 c2_profiles=[],
                 # TODO: figure out if possible to not specify these manually
                 commands=['ifconfig', 'download', 'upload', 'ls', 'ps', 'ping', 'whoami', 'screenshot', 'netstat', 'getgid', 'getuid', 'getpid', 'cat', 'cd', 'pwd', 'info', 'execute', 'mkdir', 'shell', 'terminate', 'rm']
             ),
         )
-        await SendMythicRPCPayloadCreateFromScratch(new_payload)
+        scratchBuild = await SendMythicRPCPayloadCreateFromScratch(new_payload)
 
     # create the callback
     extra_info = json.dumps({

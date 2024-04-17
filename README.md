@@ -43,7 +43,7 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
   - Interactive Tasking (shell) 🚧🐞 (buggy)
 - Beacon checkin status
 - Documentation-payload
-- Build implants through Mythic ('generate' + UI)
+- Build implants through Mythic ('generate' + UI)✅
 - Sliver 3rd party integrations
 - Stretch Goal: Ability to run the sliver server within mythic
 - Stretch Goal: V2 everything in go💙 (match sliver official client code)
@@ -67,7 +67,7 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - cursed
     - dns
     - env
-    - generate
+    - generate✅
     - hosts
     - http
     - https
@@ -86,7 +86,7 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - tasks
     - update
     - use✅
-    - version
+    - version✅
     - websites
     - wg
     - operators
