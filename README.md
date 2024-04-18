@@ -13,7 +13,7 @@ Checkout this [blog](./blog/blog.md) about my experience creating them.
 
 ### Quick Start
 
-This assumes that sliver is installed and running.
+This assumes that sliver (1.5.x) is installed and running.
 
 ```sh
 # Generate Sliver Operator Config
