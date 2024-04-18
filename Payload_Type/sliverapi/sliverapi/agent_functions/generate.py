@@ -54,6 +54,8 @@ class Generate(CommandBase):
             'linux': 'Linux'
         }
 
+        # TODO: include 'shell' for sessions, but not for beaconers
+
         createMessage = MythicRPCPayloadCreateFromScratchMessage(
             TaskID=taskData.Task.ID,
             PayloadConfiguration=MythicRPCPayloadConfiguration(

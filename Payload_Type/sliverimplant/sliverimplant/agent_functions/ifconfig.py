@@ -36,7 +36,7 @@ class Ifconfig(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        ifconfig_results = await SliverAPI.ifconfig(taskData)
+        ifconfig_results = await ifconfig(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -53,3 +53,13 @@ class Ifconfig(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def ifconfig(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    ifconfig_results = await interact.ifconfig()
+
+    if (isBeacon):
+        ifconfig_results = await ifconfig_results
+
+    return ifconfig_results

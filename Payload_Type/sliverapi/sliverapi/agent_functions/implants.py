@@ -3,6 +3,8 @@ from ..SliverRequests import SliverAPI
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
+from tabulate import tabulate
+
 
 class ImplantsArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
@@ -46,7 +48,7 @@ class Implants(CommandBase):
         # TODO:  rm  Remove implant build
 
         # 'implants' with no options
-        response = await SliverAPI.implants_list(taskData)
+        response = await implants_list(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -64,3 +66,27 @@ class Implants(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def implants_list(taskData: PTTaskMessageAllData):
+    client = await SliverAPI.create_sliver_client(taskData)
+    implants = await client.implant_builds()
+
+    # This is the sliver formatting
+
+    #  Name             Implant Type   Template   OS/Arch           Format   Command & Control               Debug 
+    # ================ ============== ========== ============= ============ =============================== =======
+    #  DARK_MITTEN      beacon         sliver     linux/amd64   EXECUTABLE   [1] mtls://192.168.17.129:443   false 
+
+    # TODO: match sliver formatting
+    # how to show Template?
+    # implant.Format is ValueType?
+    # C2 only shows first URL
+    # What to show if no implants?
+
+    headers = ["Name", "Implant Type", "OS/Arch", "Command & Control", "Debug"]
+    data = [(implant.FileName, "beacon" if implant.IsBeacon else "session", f"{implant.GOOS}/{implant.GOARCH}", implant.C2[0].URL, implant.Debug) for implant in implants.values()]
+    table = tabulate(data, headers=headers)
+
+    return table
+

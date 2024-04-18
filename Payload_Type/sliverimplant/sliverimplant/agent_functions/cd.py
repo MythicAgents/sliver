@@ -47,7 +47,7 @@ class Cd(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        response = await SliverAPI.cd(taskData, taskData.args.get_arg('path'))
+        response = await cd(taskData, taskData.args.get_arg('path'))
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -64,3 +64,13 @@ class Cd(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def cd(taskData: PTTaskMessageAllData, remote_path: str):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    cd_results = await interact.cd(remote_path=remote_path)
+
+    if (isBeacon):
+        cd_results = await cd_results
+    
+    return f"{cd_results}"

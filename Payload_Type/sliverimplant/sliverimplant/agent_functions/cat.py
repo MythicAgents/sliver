@@ -4,6 +4,7 @@ from ..SliverRequests import SliverAPI
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
+import gzip
 
 class CatArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
@@ -55,7 +56,7 @@ class Cat(CommandBase):
 
         # just download and don't create a file, show the output to user
         # sliver py doesn't have a direct 'cat' method to use
-        plaintext = await SliverAPI.download(taskData, taskData.args.get_arg('full_path'))
+        plaintext = await download(taskData, taskData.args.get_arg('full_path'))
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -72,3 +73,18 @@ class Cat(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def download(taskData: PTTaskMessageAllData, full_path: str):
+    # TODO: this is duplicated in the download.py command, consider refactoring
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    download_results = await interact.download(remote_path=full_path)
+
+    if (isBeacon):
+        download_results = await download_results
+
+    plaintext = gzip.decompress(download_results.Data)
+
+    return plaintext
+
+

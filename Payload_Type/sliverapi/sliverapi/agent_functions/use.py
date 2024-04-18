@@ -3,6 +3,8 @@ from ..SliverRequests import SliverAPI
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
+import json
+
 
 class UseArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
@@ -52,7 +54,7 @@ class Use(CommandBase):
         # TODO:  sessions  Switch the active session
 
         sliver_id = taskData.args.get_arg('id')
-        response = await SliverAPI.use(taskData, sliver_id)
+        response = await use(taskData, sliver_id)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -71,3 +73,77 @@ class Use(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def use(taskData: PTTaskMessageAllData, sliver_id: int):
+    client = await SliverAPI.create_sliver_client(taskData)
+
+    beacon_info = await client.beacon_by_id(sliver_id)
+    session_info = await client.session_by_id(sliver_id)
+
+    if (not beacon_info and not session_info):
+        # TODO: throw error and catch in use.py, and handle sending mythic errors gracefully
+        # taskResponse = PTTaskCreateTaskingMessageResponse(
+        #     TaskID=taskData.Task.ID,
+        #     Success=False,
+        #     Completed=True,
+        #     Error="id not found in sliver",
+        #     TaskStatus=f"[!] no session or beacon found with ID {sliver_id}",
+        # )
+        # return taskResponse
+        return f"[!] no session or beacon found with ID {sliver_id}"
+
+    # TODO: match sliver formatting
+    # [*] Active session FUNNY_DRIVEWAY (586a4bdf-ffaf-4136-8387-45cc983ecc0f)
+
+    isBeacon = beacon_info is not None
+    implant_info = beacon_info or session_info
+
+    # check if payload already exists, if so, skip to creating the callback
+    search = await SendMythicRPCPayloadSearch(MythicRPCPayloadSearchMessage(
+        PayloadUUID=sliver_id
+    ))
+
+    if (len(search.Payloads) == 0):
+        # create the payload
+        # TODO: figure out mappings for windows or mac...
+        sliver_os_table = {
+            'linux': 'Linux'
+        }
+
+        # TODO: only include 'shell' for interactive sessions, not beacons
+
+        new_payload = MythicRPCPayloadCreateFromScratchMessage(
+            TaskID=taskData.Task.ID,
+            PayloadConfiguration=MythicRPCPayloadConfiguration(
+                payload_type="sliverimplant",
+                uuid=sliver_id,
+                selected_os=sliver_os_table[implant_info.OS],                 
+                description=f"(no download) using sliver {'beaconing' if isBeacon else 'interactive'} implant for {sliver_id}",
+                build_parameters=[],
+                c2_profiles=[],
+                # TODO: figure out if possible to not specify these manually
+                commands=['ifconfig', 'download', 'upload', 'ls', 'ps', 'ping', 'whoami', 'screenshot', 'netstat', 'getgid', 'getuid', 'getpid', 'cat', 'cd', 'pwd', 'info', 'execute', 'mkdir', 'shell', 'terminate', 'rm']
+            ),
+        )
+        scratchBuild = await SendMythicRPCPayloadCreateFromScratch(new_payload)
+
+    # create the callback
+    extra_info = json.dumps({
+        # TODO: if buildparams changes, then this won't work anymore (could make it more resilient)
+        "slivercfg_fileid": taskData.BuildParameters[0].Value,
+        "type": 'beacon' if isBeacon else 'session'
+    })
+    response = await SendMythicRPCCallbackCreate(MythicRPCCallbackCreateMessage(
+        PayloadUUID=sliver_id,
+        C2ProfileName="",
+        IntegrityLevel=3,
+        Host=implant_info.Hostname,
+        User=implant_info.Username,
+        Ip=implant_info.RemoteAddress.split(':')[0],
+        ExtraInfo=extra_info,
+        PID=implant_info.PID
+    ))
+
+    return f"[*] Active session FUNNY_DRIVEWAY ({sliver_id})"
+
+

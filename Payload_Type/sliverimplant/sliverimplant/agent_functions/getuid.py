@@ -35,7 +35,7 @@ class Getuid(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        uid_results = await SliverAPI.getuid(taskData)
+        uid_results = await getuid(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -52,3 +52,7 @@ class Getuid(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def getuid(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+    return f"{interact.uid}"

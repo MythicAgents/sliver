@@ -37,7 +37,7 @@ class Ping(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        ping_results = await SliverAPI.ping(taskData)
+        ping_results = await ping(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -54,3 +54,13 @@ class Ping(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def ping(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+    ping_result = await interact.ping()
+
+    if (isBeacon):
+        ping_result = await ping_result
+
+    return f"{ping_result}"
+

@@ -48,7 +48,7 @@ class Beacons(CommandBase):
 
         
         # 'beacons' with no options
-        response = await SliverAPI.beacons_list(taskData)
+        response = await beacons_list(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -66,3 +66,18 @@ class Beacons(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def beacons_list(taskData: PTTaskMessageAllData):
+    client = await SliverAPI.create_sliver_client(taskData)
+    beacons = await client.beacons()
+
+    # TODO: match sliver formatting
+
+    #  ID         Name          Transport   Hostname   Username   Operating System   Last Check-In   Next Check-In 
+    # ========== ============= =========== ========== ========== ================== =============== ===============
+    #  d90a2ec6   DARK_MITTEN   mtls        ubuntu     ubuntu     linux/amd64        2s              1m4s          
+
+    # What to show if no beacons?
+
+    return f"{beacons}"
+

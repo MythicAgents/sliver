@@ -35,7 +35,7 @@ class Whoami(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        whoami_results = await SliverAPI.whoami(taskData)
+        whoami_results = await whoami(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -52,3 +52,10 @@ class Whoami(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def whoami(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    # TODO: this is special for windows
+
+    return f"Logon ID: {interact.username}"

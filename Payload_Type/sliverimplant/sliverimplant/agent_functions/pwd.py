@@ -36,7 +36,7 @@ class Pwd(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
        
-        response = await SliverAPI.pwd(taskData)
+        response = await pwd(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -53,3 +53,15 @@ class Pwd(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def pwd(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    pwd_results = await interact.pwd()
+
+    if (isBeacon):
+        pwd_results = await pwd_results
+
+    return f"{pwd_results}"
+
