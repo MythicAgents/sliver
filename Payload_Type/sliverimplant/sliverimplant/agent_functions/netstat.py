@@ -41,7 +41,7 @@ class Netstat(CommandBase):
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
         # TODO:  -u, --udp            display information about UDP sockets
 
-        netstat_results = await SliverAPI.netstat(taskData)
+        netstat_results = await netstat(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -58,3 +58,13 @@ class Netstat(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def netstat(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    netstat_results = await interact.netstat(tcp=True, udp=True, ipv4=True, ipv6=True, listening=True)
+
+    if (isBeacon):
+        netstat_results = await netstat_results
+
+    return netstat_results

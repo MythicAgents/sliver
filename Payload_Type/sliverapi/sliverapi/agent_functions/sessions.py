@@ -3,6 +3,7 @@ from ..SliverRequests import SliverAPI
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
+from tabulate import tabulate
 
 
 class SessionsArguments(TaskArguments):
@@ -49,7 +50,7 @@ class Sessions(CommandBase):
         # TODO: prune  Kill all stale/dead sessions
 
         # 'sessions' with no options
-        response = await SliverAPI.sessions_list(taskData)
+        response = await sessions_list(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -68,3 +69,23 @@ class Sessions(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
     
+
+async def sessions_list(taskData: PTTaskMessageAllData):
+    client = await SliverAPI.create_sliver_client(taskData)
+    sessions = await client.sessions()
+
+    # This is the sliver formatting
+
+    # ID         Transport   Remote Address         Hostname   Username   Operating System   Health  
+    # ========== =========== ====================== ========== ========== ================== =========
+    # 78c06ded   mtls        192.168.17.129:51042   ubuntu     root       linux/amd64        [ALIVE] 
+
+    # TODO: match sliver formatting
+    # what to show when no sessions?
+
+    headers = ["ID", "Transport", "Remote Address", "Hostname", "Username", "Operating System", "Health"]
+    data = [(session.ID, session.Transport, session.RemoteAddress, session.Hostname, session.Username, session.OS, "[DEAD]" if session.IsDead else "[ALIVE]") for session in sessions]
+    table = tabulate(data, headers=headers)
+
+    return table
+

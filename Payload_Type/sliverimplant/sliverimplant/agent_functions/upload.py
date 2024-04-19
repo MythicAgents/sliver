@@ -54,7 +54,7 @@ class Upload(CommandBase):
         # TODO:  -i, --ioc            track uploaded file as an ioc
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        response = await SliverAPI.upload(taskData, taskData.args.get_arg('uuid'), taskData.args.get_arg('path'))
+        response = await upload(taskData, taskData.args.get_arg('uuid'), taskData.args.get_arg('path'))
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -71,3 +71,20 @@ class Upload(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def upload(taskData: PTTaskMessageAllData, agent_file_uuid: str, path: str):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    filestuff = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
+        AgentFileId=agent_file_uuid
+    ))
+
+    upload_results = await interact.upload(
+        remote_path=path,
+        data=filestuff.Content
+    )
+
+    if (isBeacon):
+        upload_results = await upload_results     
+
+    return upload_results

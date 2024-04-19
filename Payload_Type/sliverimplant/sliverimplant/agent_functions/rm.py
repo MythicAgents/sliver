@@ -54,7 +54,7 @@ class Rm(CommandBase):
         # TODO:  -t, --timeout   int    command timeout in seconds (default: 60)
 
         path_to_rm = taskData.args.get_arg('full_path')
-        rm_results = await SliverAPI.rm(taskData, path_to_rm)
+        rm_results = await rm(taskData, path_to_rm)
 
         # TODO: this should be refactored
         Name = path_to_rm.split('/')[-1]
@@ -87,3 +87,15 @@ class Rm(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def rm(taskData: PTTaskMessageAllData, path_to_rm: str):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    rm_results = await interact.rm(remote_path=path_to_rm)
+    
+    if (isBeacon):
+        rm_results = await rm_results
+
+    return rm_results
+

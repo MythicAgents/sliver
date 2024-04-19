@@ -13,7 +13,7 @@ Checkout this [blog](./blog/blog.md) about my experience creating them.
 
 ### Quick Start
 
-This assumes that sliver is installed and running.
+This assumes that sliver (1.5.x) is installed and running.
 
 ```sh
 # Generate Sliver Operator Config
@@ -48,48 +48,50 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 - Stretch Goal: Ability to run the sliver server within mythic
 - Stretch Goal: V2 everything in go💙 (match sliver official client code)
 
+✅ == kinda working proof of concept, parameters/formatting likely need more work
+☝️ == requires updated sliver-py, or updated rpc, or mythic updates
+👷 == ready for implementation
+🔍 == more research needed
+
 <details>
   <summary>Server Commands</summary>
 
-    - clear
-    - exit
-    - help
-    - monitor
-    - wg-config
-    - wg-portfwd
-    - wg-socks
-    - aliases
-    - armory
-    - background
+    - clear (not applicable)
+    - exit🔍 (exit vs close vs background vs kill)
+    - monitor🔍
+    - wg-config🔍
+    - wg-portfwd🔍
+    - wg-socks🔍
+    - aliases (waiting on Mythic alias support)
+    - armory☝️ (waiting on Mythic alias support)
+    - background (not applicable?)
     - beacons✅
-    - builders
-    - canaries
-    - cursed
-    - dns
-    - env
+    - builders☝️
+    - canaries✅
+    - cursed🔍
+    - dns👷
     - generate✅
-    - hosts
-    - http
-    - https
+    - hosts✅
+    - http✅
+    - https✅
     - implants✅
     - jobs✅
-    - licenses
-    - loot
+    - licenses✅
+    - loot👷
     - mtls✅
-    - prelude-operator
+    - prelude-operator🔍 (not yet supported)
     - profiles✅
-    - reaction
-    - regenerate
+    - reaction🔍
+    - regenerate👷
     - sessions✅
-    - settings
-    - stage-listener
-    - tasks
-    - update
+    - settings (not applicable)
+    - stage-listener👷
+    - update (not applicable)
     - use✅
     - version✅
-    - websites
-    - wg
-    - operators
+    - websites👷
+    - wg👷
+    - operators✅
 
 </details>
 
@@ -98,45 +100,46 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 
     - cat✅
     - cd✅
-    - chmod
-    - chown
-    - chtimes
-    - close
+    - chmod☝️
+    - chown☝️
+    - chtimes☝️
+    - close🔍 (what is this used for?)
     - download✅
     - execute✅
-    - execute-shellcode
-    - extensions
+    - execute-shellcode👷
+    - execute-assembly👷
+    - extensions👷
     - getgid✅
     - getpid✅
     - getuid✅
     - ifconfig✅
     - info✅
-    - interactive
-    - kill
+    - interactive✅ (beacon only)
+    - kill✅
     - ls✅
-    - memfiles
+    - memfiles☝️
     - mkdir✅
-    - msf
-    - msf-inject
-    - mv
+    - msf👷
+    - msf-inject👷
+    - mv✅
     - netstat✅
     - ping✅ (session only)
-    - pivots
-    - portfwd
-    - procdump
+    - pivots👷 (session only)
+    - portfwd👷
+    - procdump👷
     - ps✅
     - pwd✅
-    - reconfig (beacon only)
-    - rename
+    - reconfig✅ (beacon only)
+    - rename (not applicable?)
     - rm✅
-    - rportfwd
+    - rportfwd👷
     - screenshot✅
     - shell✅ (session only)
-    - shikata-ga-nai
-    - sideload
-    - socks5
-    - ssh
-    - tasks (beacon only)
+    - shikata-ga-nai🔍 (do we need this?)
+    - sideload👷
+    - socks5👷
+    - ssh👷
+    - tasks✅ (beacon only)
     - terminate✅
     - upload✅
     - whoami✅

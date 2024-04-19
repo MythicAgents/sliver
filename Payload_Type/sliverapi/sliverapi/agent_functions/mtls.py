@@ -49,7 +49,7 @@ class Mtls(CommandBase):
 
         # 'mtls -l <port>'
         port = taskData.args.get_arg('lport')
-        response = await SliverAPI.mtls_start(taskData, port)
+        response = await mtls_start(taskData, port)
         
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -67,3 +67,22 @@ class Mtls(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def mtls_start(taskData: PTTaskMessageAllData, port: int):
+    client = await SliverAPI.create_sliver_client(taskData)
+
+    mtls_start_result = await client.start_mtls_listener(
+        host = "0.0.0.0",
+        port = port,
+        persistent = False,
+    )
+
+    # TODO: match sliver formatting
+
+    # [*] Starting mTLS listener ...
+    # [*] Successfully started job #1
+
+    return f"{mtls_start_result}"
+
+

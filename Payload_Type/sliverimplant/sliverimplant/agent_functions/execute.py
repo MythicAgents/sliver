@@ -66,7 +66,7 @@ class Execute(CommandBase):
         # TODO:  -t, --timeout       int       command timeout in seconds (default: 60)
         # TODO:  -T, --token                   execute command with current token (windows only)
 
-        execute_results = await SliverAPI.execute(taskData)
+        execute_results = await execute(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -83,3 +83,18 @@ class Execute(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def execute(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    # TODO: get these from function parameters and extract in the parent function instead
+    exe = taskData.args.get_arg('exe')
+    args = taskData.args.get_arg('args')
+    output = taskData.args.get_arg('output')
+
+    execute_results = await interact.execute(exe=exe, args=args, output=output)
+
+    if (isBeacon):
+        execute_results = await execute_results
+
+    return execute_results

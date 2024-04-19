@@ -44,7 +44,7 @@ class Ps(CommandBase):
         # TODO:  -t, --timeout       int       command timeout in seconds (default: 60)
         # TODO:  -T, --tree                    print process tree
 
-        ps_results = await SliverAPI.ps(taskData)
+        ps_results = await ps(taskData)
 
         processes = []
         for ps in ps_results:
@@ -75,3 +75,13 @@ class Ps(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def ps(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    ps_results = await interact.ps()
+
+    if (isBeacon):
+        ps_results = await ps_results
+
+    return ps_results

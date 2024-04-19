@@ -36,7 +36,7 @@ class Version(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        response = await SliverAPI.version(taskData)
+        response = await version(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -55,3 +55,19 @@ class Version(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
     
+
+async def version(taskData: PTTaskMessageAllData):
+    client = await SliverAPI.create_sliver_client(taskData)
+    version_results = await client.version()
+
+    # TODO: match sliver formatting
+
+    # [*] Client v1.5.42 - 85b0e870d05ec47184958dbcb871ddee2eb9e3df - linux/amd64
+    #     Compiled at 2024-02-28 13:46:53 -0600 CST
+    #     Compiled with go version go1.20.7 linux/amd64
+
+
+    # [*] Server v1.5.42 - 85b0e870d05ec47184958dbcb871ddee2eb9e3df - linux/amd64
+    #     Compiled at 2024-02-28 13:46:53 -0600 CST
+
+    return f"{version_results}"

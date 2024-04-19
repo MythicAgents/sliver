@@ -55,7 +55,7 @@ class Ls(CommandBase):
         # TODO:  -t, --timeout  int    command timeout in seconds (default: 60)
 
         path_to_ls = taskData.args.get_arg('full_path')
-        ls_results = await SliverAPI.ls(taskData, path_to_ls)
+        ls_results = await ls(taskData, path_to_ls)
 
         # PATH will always be the 'directory' that is queried
         # Files will always be files/directories inside the path
@@ -126,3 +126,15 @@ class Ls(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def ls(taskData: PTTaskMessageAllData, path_to_ls: str):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    ls_results = await interact.ls(remote_path=path_to_ls)
+
+    if (isBeacon):
+        ls_results = await ls_results
+        
+    return ls_results
+

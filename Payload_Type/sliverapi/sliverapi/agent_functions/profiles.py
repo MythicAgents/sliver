@@ -42,7 +42,7 @@ class Profiles(CommandBase):
         # TODO:  rm        Remove a profile
 
         # 'profiles' with no options
-        response = await SliverAPI.profiles_list(taskData)
+        response = await profiles_list(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -60,3 +60,14 @@ class Profiles(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def profiles_list(taskData: PTTaskMessageAllData):
+    client = await SliverAPI.create_sliver_client(taskData)
+    profiles = await client.implant_profiles()
+
+    # TODO: match sliver formatting
+    # show nothing if no profiles
+
+    return f"{profiles}"
+

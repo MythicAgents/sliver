@@ -49,7 +49,7 @@ class Terminate(CommandBase):
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
         pid_to_kill = taskData.args.get_arg('process_id')
-        response = await SliverAPI.terminate(taskData, pid_to_kill)
+        response = await terminate(taskData, pid_to_kill)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -66,3 +66,14 @@ class Terminate(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def terminate(taskData: PTTaskMessageAllData, pid: int):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    terminate_results = await interact.terminate(pid=pid)
+
+    if (isBeacon):
+        terminate_results = await terminate_results
+
+    return f"{terminate_results}"

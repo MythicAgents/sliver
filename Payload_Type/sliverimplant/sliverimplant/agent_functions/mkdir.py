@@ -47,7 +47,7 @@ class Mkdir(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        mkdir_results = await SliverAPI.mkdir(taskData)
+        mkdir_results = await mkdir(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -64,3 +64,17 @@ class Mkdir(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def mkdir(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    # TODO: get these from function parameters and extract in the parent function instead
+    remote_path = taskData.args.get_arg('path')
+
+    mkdir_results = await interact.mkdir(remote_path=remote_path)
+
+    if (isBeacon):
+        mkdir_results = await mkdir_results
+
+    return mkdir_results

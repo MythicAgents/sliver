@@ -51,9 +51,9 @@ class Jobs(CommandBase):
 
         if (taskData.args.get_arg('k') != -1):
             job_id = taskData.args.get_arg('k')
-            response = await SliverAPI.jobs_kill(taskData, job_id)
+            response = await jobs_kill(taskData, job_id)
         else:
-            response = await SliverAPI.jobs_list(taskData)
+            response = await jobs_list(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -71,3 +71,31 @@ class Jobs(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+
+async def jobs_list(taskData: PTTaskMessageAllData):
+    client = await SliverAPI.create_sliver_client(taskData)
+    jobs = await client.jobs()
+
+    # TODO: match sliver formatting
+
+    #  ID   Name   Protocol   Port   Stage Profile 
+    # ==== ====== ========== ====== ===============
+    #  1    mtls   tcp        443                  
+
+    # [*] No active jobs
+
+    return f"{jobs}"
+
+
+async def jobs_kill(taskData: PTTaskMessageAllData, job_id: int):
+    client = await SliverAPI.create_sliver_client(taskData)
+    kill_response = await client.kill_job(job_id=job_id)
+
+    # TODO: match sliver formatting
+
+    # [*] Killing job #1 ...
+    # [!] Job #1 stopped (tcp/mtls)
+    # [*] Successfully killed job #1
+
+    return f"{kill_response}"

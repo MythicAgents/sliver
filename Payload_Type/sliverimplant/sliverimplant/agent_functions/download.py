@@ -1,5 +1,5 @@
 from ..SliverRequests import SliverAPI
-
+import gzip
 
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
@@ -54,7 +54,7 @@ class Download(CommandBase):
         # TODO:  -t, --timeout   int       command timeout in seconds (default: 60)
         # TODO:  -T, --type      string    force a specific loot type (file/cred) if looting
 
-        plaintext = await SliverAPI.download(taskData, taskData.args.get_arg('full_path'))
+        plaintext = await download(taskData, taskData.args.get_arg('full_path'))
 
         # TODO: update the file browser and indicate it was downloaded?
         results = await SendMythicRPCFileCreate(MythicRPCFileCreateMessage(
@@ -81,3 +81,15 @@ class Download(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def download(taskData: PTTaskMessageAllData, full_path: str):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+
+    download_results = await interact.download(remote_path=full_path)
+
+    if (isBeacon):
+        download_results = await download_results
+
+    plaintext = gzip.decompress(download_results.Data)
+
+    return plaintext

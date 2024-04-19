@@ -39,7 +39,7 @@ class Screenshot(CommandBase):
         # TODO: -s, --save    string    save to file (will overwrite if exists)
         # TODO: -t, --timeout int       command timeout in seconds (default: 60)
 
-        screenshot_results = await SliverAPI.screenshot(taskData)
+        screenshot_results = await screenshot(taskData)
 
         results = await SendMythicRPCFileCreate(MythicRPCFileCreateMessage(
             TaskID=taskData.Task.ID,
@@ -65,3 +65,12 @@ class Screenshot(CommandBase):
     async def process_response(self, task: PTTaskMessageAllData, response: any) -> PTTaskProcessResponseMessageResponse:
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
+
+async def screenshot(taskData: PTTaskMessageAllData):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+    screenshot_result = await interact.screenshot()
+
+    if (isBeacon):
+        screenshot_result = await screenshot_result
+
+    return screenshot_result.Data
