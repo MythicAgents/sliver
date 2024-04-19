@@ -51,7 +51,7 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 <details>
   <summary>Server Commands</summary>
 
-    - clear
+    - clear (not applicable)
     - exit
     - help
     - monitor
@@ -60,36 +60,34 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - wg-socks
     - aliases
     - armory
-    - background
+    - background (not applicable?)
     - beacons✅
     - builders
-    - canaries
+    - canaries✅
     - cursed
     - dns
-    - env
     - generate✅
-    - hosts
+    - hosts✅
     - http
     - https
     - implants✅
     - jobs✅
-    - licenses
+    - licenses✅
     - loot
     - mtls✅
-    - prelude-operator
+    - prelude-operator (not yet supported)
     - profiles✅
     - reaction
     - regenerate
     - sessions✅
-    - settings
+    - settings (not applicable)
     - stage-listener
-    - tasks
-    - update
+    - update (not applicable)
     - use✅
     - version✅
     - websites
     - wg
-    - operators
+    - operators✅
 
 </details>
 

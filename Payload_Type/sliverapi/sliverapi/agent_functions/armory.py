@@ -4,8 +4,9 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+# from sliver import common_pb2
 
-class BuildersArguments(TaskArguments):
+class ArmoryArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = []
@@ -14,35 +15,38 @@ class BuildersArguments(TaskArguments):
         pass
 
 
-class Builders(CommandBase):
-    cmd = "builders"
+class Armory(CommandBase):
+    cmd = "armory"
     needs_admin = False
-    help_cmd = "builders"
-    description = "Lists external builders currently registered with the server."
+    help_cmd = "armory"
+    description = "Automatically download and install extensions/aliases"
     version = 1
     author = "Spencer Adolph"
-    argument_class = BuildersArguments
+    argument_class = ArmoryArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        # Command: builders
-        # About: Lists external builders currently registered with the server.
-
-        # External builders allow the Sliver server offload implant builds onto external machines.
-        # For more information: https://github.com/BishopFox/sliver/wiki/External-Builders
-
+        # Automatically download and install extensions/aliases
 
         # Usage:
         # ======
-        #   builders [flags]
+        #   armory [flags]
 
         # Flags:
         # ======
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        # TODO:  -h, --help                   display help
+        # TODO:  -c, --ignore-cache           ignore metadata cache, force refresh
+        # TODO:  -I, --insecure               skip tls certificate validation
+        # TODO:  -p, --proxy        string    specify a proxy url (e.g. http://localhost:8080)
+        # TODO:  -t, --timeout      string    download timeout (default: 15m)
 
+        # Sub Commands:
+        # =============
+        # TODO:  install  Install an alias or extension
+        # TODO:  search   Search for aliases and extensions by name (regex)
+        # TODO:  update   Update installed an aliases and extensions
 
-        response = await builders(taskData)
+        response = await armory(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -62,9 +66,11 @@ class Builders(CommandBase):
         return resp
 
 
-async def builders(taskData: PTTaskMessageAllData):
+async def armory(taskData: PTTaskMessageAllData):
     # client = await SliverAPI.create_sliver_client(taskData)
+
+    # armory_results = await client.armory()
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented, requires re-build of gRPC (or sliver 1.6)"
+    return "This command not yet implemented..."

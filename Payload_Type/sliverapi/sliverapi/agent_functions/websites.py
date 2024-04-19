@@ -4,8 +4,9 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+# from sliver import common_pb2
 
-class BuildersArguments(TaskArguments):
+class WebsitesArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = []
@@ -14,35 +15,41 @@ class BuildersArguments(TaskArguments):
         pass
 
 
-class Builders(CommandBase):
-    cmd = "builders"
+class Websites(CommandBase):
+    cmd = "websites"
     needs_admin = False
-    help_cmd = "builders"
-    description = "Lists external builders currently registered with the server."
+    help_cmd = "websites"
+    description = "Add content to HTTP(S) C2 websites to make them look more legit"
     version = 1
     author = "Spencer Adolph"
-    argument_class = BuildersArguments
+    argument_class = WebsitesArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        # Command: builders
-        # About: Lists external builders currently registered with the server.
-
-        # External builders allow the Sliver server offload implant builds onto external machines.
-        # For more information: https://github.com/BishopFox/sliver/wiki/External-Builders
-
+        # Command: websites <options> <operation>
+        # About: Add content to HTTP(S) C2 websites to make them look more legit.
 
         # Usage:
         # ======
-        #   builders [flags]
+        #   websites [flags] [name]
+
+        # Args:
+        # =====
+        #   name  string    website name
 
         # Flags:
         # ======
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
+        # Sub Commands:
+        # =============
+        # TODO:  add-content   Add content to a website
+        # TODO:  content-type  Update a path's content-type
+        # TODO:  rm            Remove an entire website and all of its contents
+        # TODO:  rm-content    Remove specific content from a website
 
-        response = await builders(taskData)
+        response = await websites(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -62,9 +69,11 @@ class Builders(CommandBase):
         return resp
 
 
-async def builders(taskData: PTTaskMessageAllData):
+async def websites(taskData: PTTaskMessageAllData):
     # client = await SliverAPI.create_sliver_client(taskData)
+
+    # websites_results = await client.websites()
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented, requires re-build of gRPC (or sliver 1.6)"
+    return "This command not yet implemented..."

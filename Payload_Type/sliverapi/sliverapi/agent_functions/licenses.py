@@ -4,8 +4,7 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
-
-class BuildersArguments(TaskArguments):
+class LicensesArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = []
@@ -14,35 +13,20 @@ class BuildersArguments(TaskArguments):
         pass
 
 
-class Builders(CommandBase):
-    cmd = "builders"
+class Licenses(CommandBase):
+    cmd = "licenses"
     needs_admin = False
-    help_cmd = "builders"
-    description = "Lists external builders currently registered with the server."
+    help_cmd = "licenses"
+    description = "Open source licenses"
     version = 1
     author = "Spencer Adolph"
-    argument_class = BuildersArguments
+    argument_class = LicensesArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        # Command: builders
-        # About: Lists external builders currently registered with the server.
+        # Open source licenses
 
-        # External builders allow the Sliver server offload implant builds onto external machines.
-        # For more information: https://github.com/BishopFox/sliver/wiki/External-Builders
-
-
-        # Usage:
-        # ======
-        #   builders [flags]
-
-        # Flags:
-        # ======
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
-
-
-        response = await builders(taskData)
+        response = await licenses(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -62,9 +46,8 @@ class Builders(CommandBase):
         return resp
 
 
-async def builders(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
-
+async def licenses(taskData: PTTaskMessageAllData):
     # TODO: match sliver formatting
 
-    return "This command not yet implemented, requires re-build of gRPC (or sliver 1.6)"
+    # This is just hard-coded in the real client
+    return "https://github.com/BishopFox/sliver/blob/master/client/licenses/licenses.go"

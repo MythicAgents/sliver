@@ -5,7 +5,7 @@ from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
 
-class BuildersArguments(TaskArguments):
+class CursedArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = []
@@ -14,35 +14,39 @@ class BuildersArguments(TaskArguments):
         pass
 
 
-class Builders(CommandBase):
-    cmd = "builders"
+class Cursed(CommandBase):
+    cmd = "cursed"
     needs_admin = False
-    help_cmd = "builders"
-    description = "Lists external builders currently registered with the server."
+    help_cmd = "cursed"
+    description = "Chrome/electron post-exploitation tool kit"
     version = 1
     author = "Spencer Adolph"
-    argument_class = BuildersArguments
+    argument_class = CursedArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        # Command: builders
-        # About: Lists external builders currently registered with the server.
-
-        # External builders allow the Sliver server offload implant builds onto external machines.
-        # For more information: https://github.com/BishopFox/sliver/wiki/External-Builders
-
+        # Chrome/electron post-exploitation tool kit (∩｀-´)⊃━☆ﾟ.*･｡ﾟ
 
         # Usage:
         # ======
-        #   builders [flags]
+        #   cursed [flags]
 
         # Flags:
         # ======
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
+        # Sub Commands:
+        # =============
+        # TODO:  chrome      Automatically inject a Cursed Chrome payload into a remote Chrome extension
+        # TODO:  console     Start a JavaScript console connected to a debug target
+        # TODO:  cookies     Dump all cookies from cursed process
+        # TODO:  edge        Automatically inject a Cursed Chrome payload into a remote Edge extension
+        # TODO:  electron    Curse a remote Electron application
+        # TODO:  rm          Remove a Curse from a process
+        # TODO:  screenshot  Take a screenshot of a cursed process debug target
 
-        response = await builders(taskData)
+        response = await cursed(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -62,9 +66,9 @@ class Builders(CommandBase):
         return resp
 
 
-async def builders(taskData: PTTaskMessageAllData):
+async def cursed(taskData: PTTaskMessageAllData):
     # client = await SliverAPI.create_sliver_client(taskData)
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented, requires re-build of gRPC (or sliver 1.6)"
+    return "This command not yet implemented..."
