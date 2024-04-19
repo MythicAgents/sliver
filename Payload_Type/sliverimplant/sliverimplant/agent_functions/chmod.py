@@ -60,11 +60,16 @@ class Chmod(CommandBase):
         return resp
 
 async def chmod(taskData: PTTaskMessageAllData):
-    # interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
 
-    # ifconfig_results = await interact._stub()
+    # RPC not on the current stub, would need to upgrade or regen from protobufs?
+    # https://github.com/BishopFox/sliver/blob/5e992e073e98015a37a503fa7d85aebe8a874860/client/command/filesystem/chmod.go#L53
+
+    # chmod_results = await interact.tas
 
     # if (isBeacon):
-    #     ifconfig_results = await ifconfig_results
+    #     chmod_results = await chmod_results
+
+    # return f"{chmod_results}"
 
     return "This command not yet implemented..."

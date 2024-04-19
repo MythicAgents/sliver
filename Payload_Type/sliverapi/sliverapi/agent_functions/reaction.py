@@ -80,7 +80,7 @@ class Reaction(CommandBase):
 async def reaction(taskData: PTTaskMessageAllData):
     # client = await SliverAPI.create_sliver_client(taskData)
 
-    # reaction_result = await client.react()
+    # reaction_result = await client._stub.rea
 
     # TODO: match sliver formatting
 

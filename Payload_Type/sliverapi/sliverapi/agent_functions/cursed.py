@@ -68,6 +68,7 @@ class Cursed(CommandBase):
 
 async def cursed(taskData: PTTaskMessageAllData):
     # client = await SliverAPI.create_sliver_client(taskData)
+    # client._stub.cu
 
     # TODO: match sliver formatting
 

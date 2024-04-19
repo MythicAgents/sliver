@@ -48,45 +48,49 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 - Stretch Goal: Ability to run the sliver server within mythic
 - Stretch Goal: V2 everything in go💙 (match sliver official client code)
 
+✅ == kinda working proof of concept
+☝️ == requires updated sliver-py, or updated rpc
+👷 == ready for implementation
+🔍 == more research needed
+
 <details>
   <summary>Server Commands</summary>
 
     - clear (not applicable)
-    - exit
-    - help
-    - monitor
-    - wg-config
-    - wg-portfwd
-    - wg-socks
-    - aliases
-    - armory
+    - exit🔍
+    - monitor🔍
+    - wg-config🔍
+    - wg-portfwd🔍
+    - wg-socks🔍
+    - aliases (waiting on Mythic alias support)
+    - armory👷 (waiting on Mythic alias support)
     - background (not applicable?)
     - beacons✅
-    - builders
+    - builders☝️
     - canaries✅
-    - cursed
-    - dns
+    - cursed🔍
+    - dns👷
     - generate✅
     - hosts✅
-    - http
-    - https
+    - http👷
+    - https👷
     - implants✅
     - jobs✅
     - licenses✅
-    - loot
+    - loot👷
     - mtls✅
-    - prelude-operator (not yet supported)
+    - prelude-operator🔍 (not yet supported)
     - profiles✅
-    - reaction
-    - regenerate
+    - reaction🔍
+    - regenerate👷
     - sessions✅
     - settings (not applicable)
-    - stage-listener
+    - stage-listener👷
     - update (not applicable)
     - use✅
     - version✅
-    - websites
-    - wg
+    - websites👷
+    - wg👷
     - operators✅
 
 </details>
@@ -96,46 +100,46 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 
     - cat✅
     - cd✅
-    - chmod
-    - chown
-    - chtimes
-    - close (what is this used for?)
+    - chmod☝️
+    - chown☝️
+    - chtimes☝️
+    - close🔍 (what is this used for?)
     - download✅
     - execute✅
-    - execute-shellcode
-    - execute-assembly
-    - extensions
+    - execute-shellcode👷
+    - execute-assembly👷
+    - extensions👷
     - getgid✅
     - getpid✅
     - getuid✅
     - ifconfig✅
     - info✅
-    - interactive (beacon only)
-    - kill
+    - interactive👷 (beacon only)
+    - kill👷
     - ls✅
-    - memfiles
+    - memfiles☝️
     - mkdir✅
-    - msf
-    - msf-inject
-    - mv
+    - msf👷
+    - msf-inject👷
+    - mv👷
     - netstat✅
     - ping✅ (session only)
-    - pivots (session only)
-    - portfwd
-    - procdump
+    - pivots👷 (session only)
+    - portfwd👷
+    - procdump👷
     - ps✅
     - pwd✅
-    - reconfig (beacon only)
+    - reconfig👷 (beacon only)
     - rename (not applicable?)
     - rm✅
-    - rportfwd
+    - rportfwd👷
     - screenshot✅
     - shell✅ (session only)
-    - shikata-ga-nai (do we need this?)
-    - sideload
-    - socks5
-    - ssh
-    - tasks (beacon only)
+    - shikata-ga-nai🔍 (do we need this?)
+    - sideload👷
+    - socks5👷
+    - ssh👷
+    - tasks👷 (beacon only)
     - terminate✅
     - upload✅
     - whoami✅

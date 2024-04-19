@@ -71,7 +71,7 @@ class Loot(CommandBase):
 async def loot(taskData: PTTaskMessageAllData):
     # client = await SliverAPI.create_sliver_client(taskData)
 
-    # loot_results = await client._stub.lootall()
+    # loot_results = await client._stub.loo
 
     # TODO: match sliver formatting
 
