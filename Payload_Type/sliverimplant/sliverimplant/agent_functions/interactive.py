@@ -4,6 +4,8 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from sliver import sliver_pb2, client_pb2
+
 class InteractiveArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
@@ -61,11 +63,12 @@ class Interactive(CommandBase):
         return resp
 
 async def interactive(taskData: PTTaskMessageAllData):
-    # interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
 
-    # ifconfig_results = await interact._stub()
+    if (not isBeacon):
+        return "Beacon Only..."
 
-    # if (isBeacon):
-    #     ifconfig_results = await ifconfig_results
+    # TODO: figure out how to wait for task to complete, or decide if don't worry about it
+    interactive_results = await interact._stub.OpenSession(interact._request(sliver_pb2.OpenSession()))
 
-    return "This command not yet implemented..."
+    return "Tasked to create an interactive session!"
