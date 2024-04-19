@@ -99,17 +99,18 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - chmod
     - chown
     - chtimes
-    - close
+    - close (what is this used for?)
     - download✅
     - execute✅
     - execute-shellcode
+    - execute-assembly
     - extensions
     - getgid✅
     - getpid✅
     - getuid✅
     - ifconfig✅
     - info✅
-    - interactive
+    - interactive (beacon only)
     - kill
     - ls✅
     - memfiles
@@ -119,18 +120,18 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - mv
     - netstat✅
     - ping✅ (session only)
-    - pivots
+    - pivots (session only)
     - portfwd
     - procdump
     - ps✅
     - pwd✅
     - reconfig (beacon only)
-    - rename
+    - rename (not applicable?)
     - rm✅
     - rportfwd
     - screenshot✅
     - shell✅ (session only)
-    - shikata-ga-nai
+    - shikata-ga-nai (do we need this?)
     - sideload
     - socks5
     - ssh
