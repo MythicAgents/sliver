@@ -66,10 +66,10 @@ class Http(CommandBase):
 
 
 async def http(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
 
-    # http_result = await client.start_http_listener()
+    http_result = await client.start_http_listener()
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"{http_result}"

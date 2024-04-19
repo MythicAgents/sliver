@@ -4,6 +4,8 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from sliver import sliver_pb2, client_pb2
+
 class TasksArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
@@ -62,11 +64,14 @@ class Tasks(CommandBase):
         return resp
 
 async def tasks(taskData: PTTaskMessageAllData):
-    # interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
 
-    # ifconfig_results = await interact._stub()
+    if (not isBeacon):
+        return "Beacon only command!"
+
+    task_results = await interact._stub.GetBeaconTasks(client_pb2.Beacon(ID=interact.beacon_id))
 
     # if (isBeacon):
     #     ifconfig_results = await ifconfig_results
 
-    return "This command not yet implemented..."
+    return f"{task_results}"

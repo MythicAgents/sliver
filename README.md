@@ -48,8 +48,8 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 - Stretch Goal: Ability to run the sliver server within mythic
 - Stretch Goal: V2 everything in go💙 (match sliver official client code)
 
-✅ == kinda working proof of concept
-☝️ == requires updated sliver-py, or updated rpc
+✅ == kinda working proof of concept, parameters/formatting likely need more work
+☝️ == requires updated sliver-py, or updated rpc, or mythic updates
 👷 == ready for implementation
 🔍 == more research needed
 
@@ -57,13 +57,13 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
   <summary>Server Commands</summary>
 
     - clear (not applicable)
-    - exit🔍
+    - exit🔍 (exit vs close vs background vs kill)
     - monitor🔍
     - wg-config🔍
     - wg-portfwd🔍
     - wg-socks🔍
     - aliases (waiting on Mythic alias support)
-    - armory👷 (waiting on Mythic alias support)
+    - armory☝️ (waiting on Mythic alias support)
     - background (not applicable?)
     - beacons✅
     - builders☝️
@@ -72,8 +72,8 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - dns👷
     - generate✅
     - hosts✅
-    - http👷
-    - https👷
+    - http✅
+    - https✅
     - implants✅
     - jobs✅
     - licenses✅
@@ -139,7 +139,7 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - sideload👷
     - socks5👷
     - ssh👷
-    - tasks👷 (beacon only)
+    - tasks✅ (beacon only)
     - terminate✅
     - upload✅
     - whoami✅

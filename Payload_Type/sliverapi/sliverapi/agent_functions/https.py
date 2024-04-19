@@ -70,10 +70,10 @@ class Https(CommandBase):
 
 
 async def https(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
 
-    # https_result = await client.start_https_listener()
+    https_result = await client.start_https_listener()
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"{https_result}"
