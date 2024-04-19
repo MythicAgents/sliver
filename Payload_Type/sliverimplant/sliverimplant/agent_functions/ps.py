@@ -47,16 +47,16 @@ class Ps(CommandBase):
         ps_results = await ps(taskData)
 
         processes = []
-        for ps in ps_results:
+        for individual_ps in ps_results:
             processes.append(
                 MythicRPCProcessCreateData(
                     Host=taskData.Callback.Host,
-                    ProcessID=ps.Pid,
-                    ParentProcessID=ps.Ppid,
-                    Name=ps.Executable,
-                    User=ps.Owner,
-                    Architecture=ps.Architecture,
-                    CommandLine=" ".join(ps.CmdLine),
+                    ProcessID=individual_ps.Pid,
+                    ParentProcessID=individual_ps.Ppid,
+                    Name=individual_ps.Executable,
+                    User=individual_ps.Owner,
+                    Architecture=individual_ps.Architecture,
+                    CommandLine=" ".join(individual_ps.CmdLine),
                 )
             )
 
