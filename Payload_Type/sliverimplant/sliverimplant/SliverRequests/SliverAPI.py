@@ -9,13 +9,15 @@ import json
 from mythic_container.LoggingBase import *
 from mythic_container.MythicGoRPC import *
 
+from sliver import InteractiveBeacon
+
 # TODO: make this better, if using identify all fields that will be used / handle emptying when exiting
 sliver_clients = {}
 
 async def create_sliver_interact(taskData: PTTaskMessageAllData):
     # check to see if its cached
     if (f"{taskData.Callback.ID}" in sliver_clients.keys()):
-        return sliver_clients[f"{taskData.Callback.ID}"]['interact']
+        return sliver_clients[f"{taskData.Callback.ID}"]['interact'], isinstance(sliver_clients[f"{taskData.Callback.ID}"]['interact'], InteractiveBeacon)
 
     extraInfoObj = json.loads(taskData.Callback.ExtraInfo)
     configfile = extraInfoObj['slivercfg_fileid']

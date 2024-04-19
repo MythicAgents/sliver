@@ -4,6 +4,8 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from sliver import sliver_pb2
+
 class PwdArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
@@ -59,6 +61,8 @@ async def pwd(taskData: PTTaskMessageAllData):
     interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
 
     pwd_results = await interact.pwd()
+
+    # pwd_results = await interact._stub.Pwd(interact._request(sliver_pb2.PwdReq()))
 
     if (isBeacon):
         pwd_results = await pwd_results

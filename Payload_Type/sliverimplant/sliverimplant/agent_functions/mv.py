@@ -4,13 +4,30 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from sliver import sliver_pb2, client_pb2
+
 class MvArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = []
+        self.args = [
+            CommandParameter(
+                name="src",
+                cli_name="src",
+                display_name="src",
+                description="source file",
+                type=ParameterType.String,
+            ),
+            CommandParameter(
+                name="dst",
+                cli_name="dst",
+                display_name="dst",
+                description="destination file",
+                type=ParameterType.String,
+            ),
+        ]
 
     async def parse_arguments(self):
-        pass
+        self.load_args_from_json_string(self.command_line)
 
 
 class Mv(CommandBase):
@@ -40,7 +57,9 @@ class Mv(CommandBase):
         # TODO:  -h, --help           display help
         # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
 
-        response = await mv(taskData)
+        src = taskData.args.get_arg('src')
+        dst = taskData.args.get_arg('dst')
+        response = await mv(taskData, src, dst)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -58,12 +77,13 @@ class Mv(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
 
-async def mv(taskData: PTTaskMessageAllData):
-    # interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+async def mv(taskData: PTTaskMessageAllData, src: str, dst: str):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
 
-    # ifconfig_results = await interact._stub()
+    # TODO: figure out how to await the task completing
+    mv_results = await interact._stub.Mv(interact._request(sliver_pb2.MvReq(Src=src, Dst=dst)))
 
     # if (isBeacon):
-    #     ifconfig_results = await ifconfig_results
+    #     mv_results = await mv_results
 
-    return "This command not yet implemented..."
+    return f"Tasked [*] {src} > {dst}"

@@ -4,13 +4,21 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from sliver import sliver_pb2
+
 class ReconfigArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = []
+        self.args = [
+            CommandParameter(
+                name="beacon_interval",
+                description="beacon_interval in seconds",
+                type=ParameterType.Number,
+            ),
+        ]
 
     async def parse_arguments(self):
-        pass
+        self.load_args_from_json_string(self.command_line)
 
 
 class Reconfig(CommandBase):
@@ -32,13 +40,14 @@ class Reconfig(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -i, --beacon-interval    string    beacon callback interval
+        #        -i, --beacon-interval    string    beacon callback interval
         # TODO:  -j, --beacon-jitter      string    beacon callback jitter (random up to)
         # TODO:  -h, --help                         display help
         # TODO:  -r, --reconnect-interval string    reconnect interval for implant
         # TODO:  -t, --timeout            int       command timeout in seconds (default: 60)
 
-        response = await reconfig(taskData)
+        beacon_interval = taskData.args.get_arg('beacon_interval')
+        response = await reconfig(taskData, beacon_interval)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
@@ -56,12 +65,17 @@ class Reconfig(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
 
-async def reconfig(taskData: PTTaskMessageAllData):
-    # interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
+async def reconfig(taskData: PTTaskMessageAllData, beacon_interval_seconds: int):
+    interact, isBeacon = await SliverAPI.create_sliver_interact(taskData)
 
-    # ifconfig_results = await interact._stub()
+    if (not isBeacon):
+        return "Beacon only command!"
+    
+    beacon_interval = beacon_interval_seconds * 1000000000
+
+    reconfig_results = await interact._stub.Reconfigure(interact._request(sliver_pb2.ReconfigureReq(BeaconInterval=beacon_interval)))
 
     # if (isBeacon):
     #     ifconfig_results = await ifconfig_results
 
-    return "This command not yet implemented..."
+    return "Tasked Reconfig!"
