@@ -67,7 +67,9 @@ class StageListener(CommandBase):
 
 
 async def stage_listener(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
+
+    
 
     # start_tcp_stager_listener_result = await client.start_tcp_stager_listener()
 

@@ -73,6 +73,12 @@ async def websites(taskData: PTTaskMessageAllData):
     client = await SliverAPI.create_sliver_client(taskData)
 
     websites_results = await client.websites()
+    
+    # websites_results = await client.add_website_content()
+    # websites_results = await client.remove_website()
+    # websites_results = await client.remove_website_content()
+    # websites_results = await client.update_website()
+    # websites_results = await client.update_website_content()
 
     # TODO: match sliver formatting
 

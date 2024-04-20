@@ -9,10 +9,18 @@ from mythic_container.PayloadBuilder import *
 class WgArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = []
+        self.args = [
+            # CommandParameter(
+            #     name="n_port",
+            #     cli_name="n_port",
+            #     display_name="n_port",
+            #     description="virtual tun interface listen port",
+            #     type=ParameterType.Number
+            # ),
+        ]
 
     async def parse_arguments(self):
-        pass
+        self.load_args_from_json_string(self.command_line)
 
 
 class Wg(CommandBase):
@@ -42,6 +50,7 @@ class Wg(CommandBase):
         # TODO:  -p, --persistent           make persistent across restarts
         # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
 
+        # n_port = taskData.args.get_arg('n_port')
         response = await wireguard(taskData)
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
@@ -63,10 +72,10 @@ class Wg(CommandBase):
 
 
 async def wireguard(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
 
-    # start_wg_listener_results = await client.start_wg_listener()
+    start_wg_listener_results = await client.start_wg_listener(tun_ip='0.0.0.0')
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"{start_wg_listener_results}"
