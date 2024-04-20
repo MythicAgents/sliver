@@ -70,10 +70,10 @@ class Websites(CommandBase):
 
 
 async def websites(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
 
-    # websites_results = await client.websites()
+    websites_results = await client.websites()
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"{websites_results}"

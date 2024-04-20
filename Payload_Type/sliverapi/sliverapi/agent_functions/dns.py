@@ -63,8 +63,10 @@ class Dns(CommandBase):
 
 
 async def dns(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
+
+    dns_results = await client.start_dns_listener(domains=['1.example.com.'], host='192.168.17.129')
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"{dns_results}"
