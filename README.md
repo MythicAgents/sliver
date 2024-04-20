@@ -49,8 +49,11 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 - Stretch Goal: V2 everything in go💙 (match sliver official client code)
 
 ✅ == kinda working proof of concept, parameters/formatting likely need more work
+
 ☝️ == requires updated sliver-py, or updated rpc, or mythic updates
+
 👷 == ready for implementation
+
 🔍 == more research needed
 
 <details>
