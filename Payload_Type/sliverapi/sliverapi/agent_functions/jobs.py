@@ -5,7 +5,6 @@ from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
 from sliver import SliverClientConfig, SliverClient, client_pb2
-
 from tabulate import tabulate
 
 class JobsArguments(TaskArguments):

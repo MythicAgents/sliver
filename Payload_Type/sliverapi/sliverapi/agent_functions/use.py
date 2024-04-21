@@ -111,6 +111,7 @@ async def use(taskData: PTTaskMessageAllData, sliver_id: int):
         }
 
         # TODO: only include 'shell' for interactive sessions, not beacons
+        # print(f"taskid: {taskData.Task.ID}")
 
         new_payload = MythicRPCPayloadCreateFromScratchMessage(
             TaskID=taskData.Task.ID,

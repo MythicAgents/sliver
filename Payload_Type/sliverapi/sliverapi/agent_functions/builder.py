@@ -2,6 +2,7 @@ import pathlib
 from mythic_container.PayloadBuilder import *
 from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
+from ..SliverRequests import SliverAPI
 
 
 class SliverApi(PayloadType):
@@ -42,6 +43,13 @@ class SliverApi(PayloadType):
             IntegrityLevel=3,
             ExtraInfo=self.uuid,
         ))
+
+        # TODO: fail building if callback already exists for this sliver config?
+
+        # doing this will cache the connection and start to read events
+        client = await SliverAPI.create_sliver_client_with_config(self.uuid, self.build_parameters[0].value)
+        # TODO: sync callbacks and things here
+
         if not create_callback.Success:
             logger.info(create_callback.Error)
         else:
