@@ -100,23 +100,12 @@ class ProfilesArguments(TaskArguments):
                         group_name="new beacon",
                         ui_position=100
                     ),
-                    # ParameterGroupInfo(
-                    #     required=True,
-                    #     group_name="rm",
-                    #     ui_position=100
-                    # ),
-                    # ParameterGroupInfo(
-                    #     required=True,
-                    #     group_name="generate",
-                    #     ui_position=100
-                    # ),
                 ]),
             CommandParameter(
                 name="profile_choice",
                 cli_name="profile_choice",
                 display_name="profile choice",
                 type=ParameterType.ChooseOne,
-                # default_value=[],
                 dynamic_query_function=self.get_profiles,
                 description="profile to choose",
                 parameter_group_info=[
@@ -261,12 +250,6 @@ class Profiles(CommandBase):
         # TODO:  new       Create a new implant profile (interactive session)
         # TODO:  rm        Remove a profile
 
-        # Was there a sub-command listed?
-        # is_new = taskData.args.get_arg('new')
-        # # is_new_beacon = taskData.args.get_arg('new')
-        # is_rm = taskData.args.get_arg('rm')
-        # is_generate = taskData.args.get_arg('generate')
-
         if (taskData.parameter_group_name == 'Default'):
             response = await profiles_list(taskData)
 
@@ -317,14 +300,14 @@ async def profiles_new(taskData: PTTaskMessageAllData):
     mtls = taskData.args.get_arg('mtls')
     os_type = taskData.args.get_arg('os')
     skip_symbols = taskData.args.get_arg('skip_symbols')
-    new_beacon = taskData.args.get_arg('new_beacon')
+    is_beacon = taskData.parameter_group_name == 'new_beacon'
     # file_format = taskData.args.get_arg('format')
     # seconds = taskData.args.get_arg('seconds')
 
     new_profile = client_pb2.ImplantProfile(
         Name=profile_name,
         Config=client_pb2.ImplantConfig(
-            IsBeacon=new_beacon is not None,
+            IsBeacon=is_beacon,
             ObfuscateSymbols=not skip_symbols,
             GOOS=os_type,
             C2=[client_pb2.ImplantC2(URL=f'mtls://{mtls}')],
@@ -335,7 +318,7 @@ async def profiles_new(taskData: PTTaskMessageAllData):
 
     profile_create_results = await client.save_implant_profile(profile=new_profile)
 
-    return f"{profile_create_results}"
+    return f"[*] Saved new implant profile {profile_name}"
 
 async def profiles_rm(taskData: PTTaskMessageAllData):
     client = await SliverAPI.create_sliver_client(taskData)
