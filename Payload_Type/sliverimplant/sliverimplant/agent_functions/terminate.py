@@ -45,8 +45,8 @@ class Terminate(CommandBase):
         # Flags:
         # ======
         # TODO:  -F, --force          disregard safety and kill the PID
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -h, --help           display help
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         pid_to_kill = taskData.args.get_arg('process_id')
         response = await terminate(taskData, pid_to_kill)

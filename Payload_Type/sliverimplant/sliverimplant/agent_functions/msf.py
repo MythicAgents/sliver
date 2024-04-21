@@ -34,12 +34,12 @@ class Msf(CommandBase):
         # Flags:
         # ======
         # TODO:  -e, --encoder    string    msf encoder
-        # TODO:  -h, --help                 display help
+        #        -h, --help                 display help
         # TODO:  -i, --iterations int       iterations of the encoder (default: 1)
         # TODO:  -L, --lhost      string    listen host
         # TODO:  -l, --lport      int       listen port (default: 4444)
         # TODO:  -m, --payload    string    msf payload (default: meterpreter_reverse_https)
-        # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
+        #        -t, --timeout    int       command timeout in seconds (default: 60)
 
         response = await msf(taskData)
 

@@ -33,8 +33,8 @@ class Version(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -h, --help           display help
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         response = await version(taskData)
 

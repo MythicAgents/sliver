@@ -239,16 +239,11 @@ class Profiles(CommandBase):
         # ======
         #   profiles [flags]
 
-        # Flags:
-        # ======
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
-
         # Sub Commands:
         # =============
-        # TODO:  generate  Generate implant from a profile
-        # TODO:  new       Create a new implant profile (interactive session)
-        # TODO:  rm        Remove a profile
+        #  generate  Generate implant from a profile
+        #  new       Create a new implant profile (interactive session)
+        #  rm        Remove a profile
 
         if (taskData.parameter_group_name == 'Default'):
             response = await profiles_list(taskData)

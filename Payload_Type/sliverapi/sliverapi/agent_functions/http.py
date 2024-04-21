@@ -36,13 +36,13 @@ class Http(CommandBase):
         # ======
         # TODO:  -D, --disable-otp                 disable otp authentication
         # TODO:  -d, --domain            string    limit responses to specific domain
-        # TODO:  -h, --help                        display help
+        #        -h, --help                        display help
         # TODO:  -L, --lhost             string    interface to bind server to
         # TODO:  -J, --long-poll-jitter  string    server-side long poll jitter (default: 2s)
         # TODO:  -T, --long-poll-timeout string    server-side long poll timeout (default: 1s)
         # TODO:  -l, --lport             int       tcp listen port (default: 80)
         # TODO:  -p, --persistent                  make persistent across restarts
-        # TODO:  -t, --timeout           int       command timeout in seconds (default: 60)
+        #        -t, --timeout           int       command timeout in seconds (default: 60)
         # TODO:  -w, --website           string    website name (see websites cmd)
 
         response = await http(taskData)

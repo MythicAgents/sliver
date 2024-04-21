@@ -54,7 +54,7 @@ class Execute(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                    display help
+        #        -h, --help                    display help
         # TODO:  -S, --ignore-stderr           don't print STDERR output
         # TODO:  -X, --loot                    save output as loot
         # TODO:  -n, --name          string    name to assign loot (optional)
@@ -63,7 +63,7 @@ class Execute(CommandBase):
         # TODO:  -s, --save                    save output to a file
         # TODO:  -E, --stderr        string    remote path to redirect STDERR to
         # TODO:  -O, --stdout        string    remote path to redirect STDOUT to
-        # TODO:  -t, --timeout       int       command timeout in seconds (default: 60)
+        #        -t, --timeout       int       command timeout in seconds (default: 60)
         # TODO:  -T, --token                   execute command with current token (windows only)
 
         execute_results = await execute(taskData)

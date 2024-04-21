@@ -34,8 +34,8 @@ class Canaries(CommandBase):
         # Flags:
         # ======
         # TODO:  -b, --burned         show only triggered/burned canaries
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -h, --help           display help
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         response = await canaries(taskData)
 

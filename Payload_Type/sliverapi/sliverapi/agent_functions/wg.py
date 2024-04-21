@@ -42,13 +42,13 @@ class Wg(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                 display help
+        #        -h, --help                 display help
         # TODO:  -x, --key-port   int       virtual tun interface key exchange port (default: 1337)
         # TODO:  -L, --lhost      string    interface to bind server to
         # TODO:  -l, --lport      int       udp listen port (default: 53)
         # TODO:  -n, --nport      int       virtual tun interface listen port (default: 8888)
         # TODO:  -p, --persistent           make persistent across restarts
-        # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
+        #        -t, --timeout    int       command timeout in seconds (default: 60)
 
         # n_port = taskData.args.get_arg('n_port')
         response = await wireguard(taskData)

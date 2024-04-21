@@ -48,11 +48,11 @@ class Ls(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help            display help
+        #        -h, --help            display help
         # TODO:  -m, --modified        sort by modified time
         # TODO:  -r, --reverse         reverse sort order
         # TODO:  -s, --size            sort by size
-        # TODO:  -t, --timeout  int    command timeout in seconds (default: 60)
+        #        -t, --timeout  int    command timeout in seconds (default: 60)
 
         path_to_ls = taskData.args.get_arg('full_path')
         ls_results = await ls(taskData, path_to_ls)

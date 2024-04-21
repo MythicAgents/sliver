@@ -42,9 +42,9 @@ class Reconfig(CommandBase):
         # ======
         #        -i, --beacon-interval    string    beacon callback interval
         # TODO:  -j, --beacon-jitter      string    beacon callback jitter (random up to)
-        # TODO:  -h, --help                         display help
+        #        -h, --help                         display help
         # TODO:  -r, --reconnect-interval string    reconnect interval for implant
-        # TODO:  -t, --timeout            int       command timeout in seconds (default: 60)
+        #        -t, --timeout            int       command timeout in seconds (default: 60)
 
         beacon_interval = taskData.args.get_arg('beacon_interval')
         response = await reconfig(taskData, beacon_interval)

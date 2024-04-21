@@ -34,11 +34,11 @@ class Armory(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                   display help
+        #        -h, --help                   display help
         # TODO:  -c, --ignore-cache           ignore metadata cache, force refresh
         # TODO:  -I, --insecure               skip tls certificate validation
         # TODO:  -p, --proxy        string    specify a proxy url (e.g. http://localhost:8080)
-        # TODO:  -t, --timeout      string    download timeout (default: 15m)
+        #        -t, --timeout      string    download timeout (default: 15m)
 
         # Sub Commands:
         # =============

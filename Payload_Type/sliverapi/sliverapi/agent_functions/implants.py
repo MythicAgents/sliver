@@ -36,12 +36,12 @@ class Implants(CommandBase):
         # ======
         # TODO:  -a, --arch          string    filter builds by cpu architecture
         # TODO:  -f, --format        string    filter builds by artifact format
-        # TODO:  -h, --help                    display help
+        #        -h, --help                    display help
         # TODO:  -d, --no-debug                filter builds by debug flag
         # TODO:  -b, --only-beacons            filter beacons
         # TODO:  -s, --only-sessions           filter interactive sessions
         # TODO:  -o, --os            string    filter builds by operating system
-        # TODO:  -t, --timeout       int       command timeout in seconds (default: 60)
+        #        -t, --timeout       int       command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============

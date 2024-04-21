@@ -32,13 +32,13 @@ class Netstat(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help           display help
+        #        -h, --help           display help
         # TODO:  -4, --ip4            display information about IPv4 sockets
         # TODO:  -6, --ip6            display information about IPv6 sockets
         # TODO:  -l, --listen         display information about listening sockets
         # TODO:  -n, --numeric        display numeric addresses (disable hostname resolution)
         # TODO:  -T, --tcp            display information about TCP sockets
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -t, --timeout int    command timeout in seconds (default: 60)
         # TODO:  -u, --udp            display information about UDP sockets
 
         netstat_results = await netstat(taskData)

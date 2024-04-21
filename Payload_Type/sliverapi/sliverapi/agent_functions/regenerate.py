@@ -38,9 +38,9 @@ class Regenerate(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help              display help
+        #        -h, --help              display help
         # TODO:  -s, --save    string    directory/file to the binary to
-        # TODO:  -t, --timeout int       command timeout in seconds (default: 60)
+        #        -t, --timeout int       command timeout in seconds (default: 60)
 
         response = await regenerate(taskData)
 

@@ -35,10 +35,10 @@ class Beacons(CommandBase):
         # TODO:  -f, --filter    string    filter beacons by substring
         # TODO:  -e, --filter-re string    filter beacons by regular expression
         # TODO:  -F, --force               force killing of the beacon
-        # TODO:  -h, --help                display help
+        #        -h, --help                display help
         # TODO:  -k, --kill      string    kill a beacon
         # TODO:  -K, --kill-all            kill all beacons
-        # TODO:  -t, --timeout   int       command timeout in seconds (default: 60)
+        #        -t, --timeout   int       command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============

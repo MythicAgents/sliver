@@ -37,9 +37,9 @@ class Chmod(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help             display help
+        #        -h, --help             display help
         # TODO:  -r, --recursive        recursively change permissions on files
-        # TODO:  -t, --timeout   int    command timeout in seconds (default: 60)
+        #        -t, --timeout   int    command timeout in seconds (default: 60)
 
         response = await chmod(taskData)
 

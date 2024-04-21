@@ -39,11 +39,11 @@ class Sessions(CommandBase):
         # TODO:  -f, --filter    string    filter sessions by substring
         # TODO:  -e, --filter-re string    filter sessions by regular expression
         # TODO:  -F, --force               force session action without waiting for results
-        # TODO:  -h, --help                display help
+        #        -h, --help                display help
         # TODO:  -i, --interact  string    interact with a session
         # TODO:  -k, --kill      string    kill the designated session
         # TODO:  -K, --kill-all            kill all the sessions
-        # TODO:  -t, --timeout   int       command timeout in seconds (default: 60)
+        #        -t, --timeout   int       command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============

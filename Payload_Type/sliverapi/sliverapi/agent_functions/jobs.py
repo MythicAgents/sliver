@@ -91,10 +91,10 @@ class Jobs(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help            display help
+        #        -h, --help            display help
         #        -k, --kill     int    kill a background job (default: -1)
         # TODO:  -K, --kill-all        kill all jobs
-        # TODO:  -t, --timeout  int    command timeout in seconds (default: 60)
+        #        -t, --timeout  int    command timeout in seconds (default: 60)
 
         if (taskData.parameter_group_name == 'Default'):
             response = await jobs_list(taskData)

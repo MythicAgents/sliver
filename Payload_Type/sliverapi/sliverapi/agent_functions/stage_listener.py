@@ -39,7 +39,7 @@ class StageListener(CommandBase):
         # TODO:      --aes-encrypt-key string    encrypt stage with AES encryption key
         # TODO:  -c, --cert            string    path to PEM encoded certificate file (HTTPS only)
         # TODO:  -C, --compress        string    compress the stage before encrypting (zlib, gzip, deflate9, none) (default: none)
-        # TODO:  -h, --help                      display help
+        #        -h, --help                      display help
         # TODO:  -k, --key             string    path to PEM encoded private key file (HTTPS only)
         # TODO:  -e, --lets-encrypt              attempt to provision a let's encrypt certificate (HTTPS only)
         # TODO:  -P, --prepend-size              prepend the size of the stage to the payload (to use with MSF stagers)

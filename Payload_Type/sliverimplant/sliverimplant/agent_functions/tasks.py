@@ -35,10 +35,10 @@ class Tasks(CommandBase):
         # Flags:
         # ======
         # TODO:  -f, --filter     string    filter based on task type (case-insensitive prefix matching)
-        # TODO:  -h, --help                 display help
+        #        -h, --help                 display help
         # TODO:  -O, --overflow             overflow terminal width (display truncated rows)
         # TODO:  -S, --skip-pages int       skip the first n page(s) (default: 0)
-        # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
+        #        -t, --timeout    int       command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============

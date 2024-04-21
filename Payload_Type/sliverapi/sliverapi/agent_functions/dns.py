@@ -35,12 +35,12 @@ class Dns(CommandBase):
         # ======
         # TODO:  -D, --disable-otp           disable otp authentication
         # TODO:  -d, --domains     string    parent domain(s) to use for DNS c2
-        # TODO:  -h, --help                  display help
+        #        -h, --help                  display help
         # TODO:  -L, --lhost       string    interface to bind server to
         # TODO:  -l, --lport       int       udp listen port (default: 53)
         # TODO:  -c, --no-canaries           disable dns canary detection
         # TODO:  -p, --persistent            make persistent across restarts
-        # TODO:  -t, --timeout     int       command timeout in seconds (default: 60)
+        #        -t, --timeout     int       command timeout in seconds (default: 60)
 
         response = await dns(taskData)
 
