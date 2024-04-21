@@ -31,16 +31,9 @@ class Builders(CommandBase):
         # External builders allow the Sliver server offload implant builds onto external machines.
         # For more information: https://github.com/BishopFox/sliver/wiki/External-Builders
 
-
         # Usage:
         # ======
         #   builders [flags]
-
-        # Flags:
-        # ======
-        #        -h, --help           display help
-        #        -t, --timeout int    command timeout in seconds (default: 60)
-
 
         response = await builders(taskData)
 
