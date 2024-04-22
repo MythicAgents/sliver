@@ -6,44 +6,19 @@ from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 import asyncio
 
-# from mythic_container.MythicCommandBase import *
-# from mythic_container.MythicRPC import *
-# from mythic_container.PayloadBuilder import *
-
 sliver_clients = {}
 
 async def create_sliver_client(taskData: PTTaskMessageAllData):
-    if (f"{taskData.Payload.UUID}" in sliver_clients.keys()):
-        return sliver_clients[f"{taskData.Payload.UUID}"]
+    # builder.py should have cached it by calling create_sliver_client_with_config
+    if (f"{taskData.Payload.UUID}" not in sliver_clients.keys()):
+        # TODO: throw error
+        return None
     
-    filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
-        # TODO: could possibly mirror this in the implant create_client, and get rid of extraInfo? (payload vs callback....)
-        AgentFileId=taskData.BuildParameters[0].Value
-    ))
-
-    config = SliverClientConfig.parse_config(filecontent.Content)
-    client = SliverClient(config)
-    
-    await client.connect()
-
-    sliver_clients[f"{taskData.Payload.UUID}"] = client
-
-    # 'Sync' Events from the Server
-    # TODO: refactor this into the builder.py
-    # TODO: is this a weird python closure? (and does that matter?)
-    async def read_server_events():
-        async for data in client.events():
-            await handleSliverEvent(data, taskData.BuildParameters[0].Value)
-    asyncio.create_task(read_server_events())
-
-    # TODO: sync callbacks and payloads here
-
-    return client
+    return sliver_clients[f"{taskData.Payload.UUID}"]
 
 
 # TODO: could refactor this more
 async def create_sliver_client_with_config(payload_uuid, configFileId):
-
     filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
         # TODO: could possibly mirror this in the implant create_client, and get rid of extraInfo? (payload vs callback....)
         AgentFileId=configFileId
@@ -51,7 +26,6 @@ async def create_sliver_client_with_config(payload_uuid, configFileId):
 
     config = SliverClientConfig.parse_config(filecontent.Content)
     client = SliverClient(config)
-    
     await client.connect()
 
     sliver_clients[f"{payload_uuid}"] = client
@@ -66,18 +40,8 @@ async def create_sliver_client_with_config(payload_uuid, configFileId):
 
     return client
 
-# TODO: spin these off from python main.py, instead of waiting for a first 'sessions' command (or anything)
-# might be able to 'for each sliverapi payload, cache the client and start a thread...'
 async def handleSliverEvent(event: client_pb2.Event, configFileId):
     print(event.EventType)
-    # if (data.EventType == 'session-connected'):
-    #             print('session-connected')
-    #             # look for uuid in payload types
-    #             # if payload type doesn't exist, create it, then make callback
-    #             # if payload type does exist, look for callback, create it if not found? (but should be there if payload is there?)
-    #             # print(taskData.Callback.ID)
-    #             # print(data.Session)
-    #         print(data.EventType)
 
     if (event.EventType == 'session-connected'):
         # print(event.Session)
@@ -125,11 +89,11 @@ async def handleSliverEvent(event: client_pb2.Event, configFileId):
         ))
 
     if (event.EventType == 'session-disconnected'):
-        print(event)
-        # close the callback?
-
-        # which callback to close?
-
+        # TODO: often hard-coding ID=1 cause not sure how else to get results back...
+        # This thread isn't running on behalf of a specific callback
+        # Could potentially pass down the CallbackID of the instantiated sliverapi callback
+        # All the way from the parent function that called this?
+        # it works for now tho........
         callbacks = await SendMythicRPCCallbackSearch(MythicRPCCallbackSearchMessage(
             AgentCallbackID=1,
             SearchCallbackPID=event.Session.PID
@@ -142,6 +106,3 @@ async def handleSliverEvent(event: client_pb2.Event, configFileId):
             
             Description='disconnected!'
         ))
-
-
-
