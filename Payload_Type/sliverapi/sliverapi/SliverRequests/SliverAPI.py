@@ -10,11 +10,32 @@ sliver_clients = {}
 
 async def create_sliver_client(taskData: PTTaskMessageAllData):
     # builder.py should have cached it by calling create_sliver_client_with_config
-    if (f"{taskData.Payload.UUID}" not in sliver_clients.keys()):
-        # TODO: throw error
-        return None
+    if (f"{taskData.Payload.UUID}" in sliver_clients.keys()):
+        return sliver_clients[f"{taskData.Payload.UUID}"]
     
-    return sliver_clients[f"{taskData.Payload.UUID}"]
+    filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
+        # TODO: could possibly mirror this in the implant create_client, and get rid of extraInfo? (payload vs callback....)
+        AgentFileId=taskData.BuildParameters[0].Value
+    ))
+
+    config = SliverClientConfig.parse_config(filecontent.Content)
+    client = SliverClient(config)
+    
+    await client.connect()
+
+    sliver_clients[f"{taskData.Payload.UUID}"] = client
+
+    # 'Sync' Events from the Server
+    # TODO: refactor this into the builder.py
+    # TODO: is this a weird python closure? (and does that matter?)
+    async def read_server_events():
+        async for data in client.events():
+            await handleSliverEvent(data, taskData.BuildParameters[0].Value)
+    asyncio.create_task(read_server_events())
+
+    # TODO: sync callbacks and payloads here
+
+    return client
 
 
 # TODO: could refactor this more
@@ -30,7 +51,7 @@ async def create_sliver_client_with_config(payload_uuid, configFileId):
 
     sliver_clients[f"{payload_uuid}"] = client
 
-    # TODO: refactor this into the builder.py
+    # # TODO: refactor this into the builder.py
     async def read_server_events():
         async for data in client.events():
             await handleSliverEvent(data, configFileId)
