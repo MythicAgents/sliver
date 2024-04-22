@@ -5,7 +5,7 @@
   "exclude_documentation_c2": true,
   "exclude_agent_icons": true,
   "remote_images": {
-    "sliverapi": "ghcr.io/mythicagents/sliver:sliverapi.v0.0.0.14",
-    "sliverimplant": "ghcr.io/mythicagents/sliver:sliverimplant.v0.0.0.14"
+    "sliverapi": "ghcr.io/mythicagents/sliver:sliverapi.v0.0.0.15",
+    "sliverimplant": "ghcr.io/mythicagents/sliver:sliverimplant.v0.0.0.15"
   }
 }
