@@ -200,6 +200,7 @@ class ProfilesArguments(TaskArguments):
 
     # TODO: this is also duplicated in the below profiles_list
     async def get_profiles(self, inputMsg: PTRPCDynamicQueryFunctionMessage) -> PTRPCDynamicQueryFunctionMessageResponse:
+        print('did get profiles thing')
         profile_names = []
 
         # TODO: this is quick and dirty, could refactor this (and put into SliverAPI file)
