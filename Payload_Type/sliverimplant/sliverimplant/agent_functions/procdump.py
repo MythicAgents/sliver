@@ -33,13 +33,13 @@ class Procdump(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                display help
+        #        -h, --help                display help
         # TODO:  -X, --loot                save output as loot
         # TODO:  -N, --loot-name string    name to assign when adding the memory dump to the loot store (optional)
         # TODO:  -n, --name      string    target process name
         # TODO:  -p, --pid       int       target pid (default: -1)
         # TODO:  -s, --save      string    save to file (will overwrite if exists)
-        # TODO:  -t, --timeout   int       command timeout in seconds (default: 60)
+        #        -t, --timeout   int       command timeout in seconds (default: 60)
 
         response = await procdump(taskData)
 

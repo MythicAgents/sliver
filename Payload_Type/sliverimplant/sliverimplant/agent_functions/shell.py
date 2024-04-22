@@ -39,10 +39,10 @@ class Shell(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                 display help
+        #        -h, --help                 display help
         # TODO:  -y, --no-pty               disable use of pty on macos/linux
         # TODO:  -s, --shell-path string    path to shell interpreter
-        # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
+        #        -t, --timeout    int       command timeout in seconds (default: 60)
 
         await create_shell(taskData)
 

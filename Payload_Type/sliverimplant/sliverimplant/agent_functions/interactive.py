@@ -36,12 +36,12 @@ class Interactive(CommandBase):
         # ======
         # TODO:  -d, --delay      string    delay opening the session (after checkin) for a given period of time (default: 0s)
         # TODO:  -n, --dns        string    dns connection strings
-        # TODO:  -h, --help                 display help
+        #        -h, --help                 display help
         # TODO:  -b, --http       string    http(s) connection strings
         # TODO:  -m, --mtls       string    mtls connection strings
         # TODO:  -p, --named-pipe string    namedpipe connection strings
         # TODO:  -i, --tcp-pivot  string    tcppivot connection strings
-        # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
+        #        -t, --timeout    int       command timeout in seconds (default: 60)
         # TODO:  -g, --wg         string    wg connection strings
 
         response = await interactive(taskData)

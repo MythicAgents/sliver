@@ -47,11 +47,11 @@ class Download(CommandBase):
         # Flags:
         # ======
         # TODO:  -F, --file-type string    force a specific file type (binary/text) if looting
-        # TODO:  -h, --help                display help
+        #        -h, --help                display help
         # TODO:  -X, --loot                save output as loot
         # TODO:  -n, --name      string    name to assign the download if looting
         # TODO:  -r, --recurse             recursively download all files in a directory
-        # TODO:  -t, --timeout   int       command timeout in seconds (default: 60)
+        #        -t, --timeout   int       command timeout in seconds (default: 60)
         # TODO:  -T, --type      string    force a specific loot type (file/cred) if looting
 
         plaintext = await download(taskData, taskData.args.get_arg('full_path'))

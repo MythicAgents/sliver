@@ -38,7 +38,7 @@ class Ssh(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                       display help
+        #        -h, --help                       display help
         # TODO:  -c, --kerberos-config  string    path to remote Kerberos config file (default: /etc/krb5.conf)
         # TODO:  -k, --kerberos-keytab  string    path to Kerberos keytab file
         # TODO:  -r, --kerberos-realm   string    Kerberos realm
@@ -48,7 +48,7 @@ class Ssh(CommandBase):
         # TODO:  -i, --private-key      string    path to private key file
         # TODO:  -u, --signed-user-cert string    path to user signed certificate (certificate based auth)
         # TODO:  -s, --skip-loot                  skip the prompt to use loot credentials
-        # TODO:  -t, --timeout          int       command timeout in seconds (default: 60)
+        #        -t, --timeout          int       command timeout in seconds (default: 60)
 
         response = await ssh(taskData)
 

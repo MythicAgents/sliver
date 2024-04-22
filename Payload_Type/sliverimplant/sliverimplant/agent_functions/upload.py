@@ -50,9 +50,9 @@ class Upload(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help           display help
+        #        -h, --help           display help
         # TODO:  -i, --ioc            track uploaded file as an ioc
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         response = await upload(taskData, taskData.args.get_arg('uuid'), taskData.args.get_arg('path'))
 

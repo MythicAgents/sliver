@@ -47,11 +47,11 @@ class Cat(CommandBase):
         # ======
         # TODO:  -c, --colorize-output           colorize output
         # TODO:  -F, --file-type       string    force a specific file type (binary/text) if looting (optional)
-        # TODO:  -h, --help                      display help
+        #        -h, --help                      display help
         # TODO:  -x, --hex                       display as a hex dump
         # TODO:  -X, --loot                      save output as loot
         # TODO:  -n, --name            string    name to assign loot (optional)
-        # TODO:  -t, --timeout         int       command timeout in seconds (default: 60)
+        #        -t, --timeout         int       command timeout in seconds (default: 60)
         # TODO:  -T, --type            string    force a specific loot type (file/cred) if looting (optional)
 
         # just download and don't create a file, show the output to user

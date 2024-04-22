@@ -49,27 +49,30 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 - Stretch Goal: V2 everything in go💙 (match sliver official client code)
 
 ✅ == kinda working proof of concept, parameters/formatting likely need more work
-☝️ == requires updated sliver-py, or updated rpc, or mythic updates
+
+☝️ == requires updated sliver, sliver-py (rpc), or mythic updates
+
 👷 == ready for implementation
+
 🔍 == more research needed
 
 <details>
   <summary>Server Commands</summary>
 
-    - clear (not applicable)
+    - clear (not needed with Mythic?)
     - exit🔍 (exit vs close vs background vs kill)
     - monitor🔍
     - wg-config🔍
     - wg-portfwd🔍
     - wg-socks🔍
-    - aliases (waiting on Mythic alias support)
-    - armory☝️ (waiting on Mythic alias support)
-    - background (not applicable?)
+    - aliases☝️
+    - armory☝️
+    - background (not needed with Mythic?)
     - beacons✅
     - builders☝️
     - canaries✅
     - cursed🔍
-    - dns👷
+    - dns✅
     - generate✅
     - hosts✅
     - http✅
@@ -77,20 +80,20 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - implants✅
     - jobs✅
     - licenses✅
-    - loot👷
+    - loot (not needed with Mythic?)
     - mtls✅
-    - prelude-operator🔍 (not yet supported)
+    - prelude-operator🔍
     - profiles✅
     - reaction🔍
     - regenerate👷
     - sessions✅
-    - settings (not applicable)
+    - settings (not needed with Mythic?)
     - stage-listener👷
-    - update (not applicable)
+    - update (not needed with Mythic?)
     - use✅
     - version✅
-    - websites👷
-    - wg👷
+    - websites✅
+    - wg✅
     - operators✅
 
 </details>
@@ -130,12 +133,12 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
     - ps✅
     - pwd✅
     - reconfig✅ (beacon only)
-    - rename (not applicable?)
+    - rename (not needed with Mythic?)
     - rm✅
     - rportfwd👷
     - screenshot✅
     - shell✅ (session only)
-    - shikata-ga-nai🔍 (do we need this?)
+    - shikata-ga-nai🔍
     - sideload👷
     - socks5👷
     - ssh👷

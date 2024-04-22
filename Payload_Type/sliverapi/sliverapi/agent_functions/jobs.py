@@ -4,20 +4,67 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from sliver import SliverClientConfig, SliverClient, client_pb2
+from tabulate import tabulate
+
 class JobsArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = [
             CommandParameter(
-                name="k",
-                description="kill a background job",
-                type=ParameterType.Number,
-                default_value=-1,
-                parameter_group_info=[ParameterGroupInfo(
-                    required=False
-                )]
+                name="list",
+                cli_name="list",
+                display_name="jobs",
+                type=ParameterType.Boolean,
+                default_value=True,
+                description="jobs",
+                parameter_group_info=[
+                    ParameterGroupInfo(
+                        required=False,
+                        group_name="Default",
+                        ui_position=1
+                    ),
+            ]),
+            CommandParameter(
+                name="kill",
+                cli_name="kill",
+                display_name="job id to kill",
+                description="job id to kill",
+                # type=ParameterType.Number,
+                type=ParameterType.ChooseOne,
+                dynamic_query_function=self.get_jobs,
+                # default_value=-1,
+                parameter_group_info=[
+                    ParameterGroupInfo(
+                        required=True,
+                        group_name="kill",
+                        ui_position=1
+                    ),
+                ]
             ),
         ]
+
+    async def get_jobs(self, inputMsg: PTRPCDynamicQueryFunctionMessage) -> PTRPCDynamicQueryFunctionMessageResponse:
+        job_ids = []
+
+        # TODO: this is quick and dirty, could refactor this (and put into SliverAPI file)
+        this_payload = await SendMythicRPCPayloadSearch(MythicRPCPayloadSearchMessage(
+            CallbackID=inputMsg.Callback,
+            PayloadUUID=inputMsg.PayloadUUID
+        ))
+
+        filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
+            AgentFileId=this_payload.Payloads[0].BuildParameters[0].Value
+        ))
+
+        config = SliverClientConfig.parse_config(filecontent.Content)
+        client = SliverClient(config)
+        await client.connect()
+        list_of_jobs = await client.jobs()
+        for job_item in list_of_jobs:
+            job_ids.append(f"{job_item.ID}")
+
+        return PTRPCDynamicQueryFunctionMessageResponse(Success=True, Choices=job_ids)
 
     async def parse_arguments(self):
         self.load_args_from_json_string(self.command_line)
@@ -43,18 +90,18 @@ class Jobs(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help            display help
+        #        -h, --help            display help
         #        -k, --kill     int    kill a background job (default: -1)
         # TODO:  -K, --kill-all        kill all jobs
-        # TODO:  -t, --timeout  int    command timeout in seconds (default: 60)
+        #        -t, --timeout  int    command timeout in seconds (default: 60)
 
-
-        if (taskData.args.get_arg('k') != -1):
-            job_id = taskData.args.get_arg('k')
-            response = await jobs_kill(taskData, job_id)
-        else:
+        if (taskData.parameter_group_name == 'Default'):
             response = await jobs_list(taskData)
 
+        if (taskData.parameter_group_name == 'kill'):
+            job_id = int(taskData.args.get_arg('kill'))
+            response = await jobs_kill(taskData, job_id)
+        
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
             Response=response.encode("UTF8"),
@@ -77,25 +124,19 @@ async def jobs_list(taskData: PTTaskMessageAllData):
     client = await SliverAPI.create_sliver_client(taskData)
     jobs = await client.jobs()
 
+    if (len(jobs) == 0):
+        return "[*] No active jobs"
+
     # TODO: match sliver formatting
 
-    #  ID   Name   Protocol   Port   Stage Profile 
-    # ==== ====== ========== ====== ===============
-    #  1    mtls   tcp        443                  
+    headers = ["ID", "Name", "Protocol", "Port"]
+    data = [(job.ID, job.Name, job.Protocol, job.Port) for job in jobs]
+    table = tabulate(data, headers=headers)
 
-    # [*] No active jobs
-
-    return f"{jobs}"
+    return table
 
 
 async def jobs_kill(taskData: PTTaskMessageAllData, job_id: int):
     client = await SliverAPI.create_sliver_client(taskData)
     kill_response = await client.kill_job(job_id=job_id)
-
-    # TODO: match sliver formatting
-
-    # [*] Killing job #1 ...
-    # [!] Job #1 stopped (tcp/mtls)
-    # [*] Successfully killed job #1
-
-    return f"{kill_response}"
+    return f"[*] Successfully killed job #{kill_response.ID}"

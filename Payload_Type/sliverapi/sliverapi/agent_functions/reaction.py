@@ -48,7 +48,7 @@ class Reaction(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help     display help
+        #        -h, --help     display help
 
         # Sub Commands:
         # =============

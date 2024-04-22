@@ -39,11 +39,11 @@ class Sessions(CommandBase):
         # TODO:  -f, --filter    string    filter sessions by substring
         # TODO:  -e, --filter-re string    filter sessions by regular expression
         # TODO:  -F, --force               force session action without waiting for results
-        # TODO:  -h, --help                display help
+        #        -h, --help                display help
         # TODO:  -i, --interact  string    interact with a session
         # TODO:  -k, --kill      string    kill the designated session
         # TODO:  -K, --kill-all            kill all the sessions
-        # TODO:  -t, --timeout   int       command timeout in seconds (default: 60)
+        #        -t, --timeout   int       command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============
@@ -73,15 +73,6 @@ class Sessions(CommandBase):
 async def sessions_list(taskData: PTTaskMessageAllData):
     client = await SliverAPI.create_sliver_client(taskData)
     sessions = await client.sessions()
-
-    # This is the sliver formatting
-
-    # ID         Transport   Remote Address         Hostname   Username   Operating System   Health  
-    # ========== =========== ====================== ========== ========== ================== =========
-    # 78c06ded   mtls        192.168.17.129:51042   ubuntu     root       linux/amd64        [ALIVE] 
-
-    # TODO: match sliver formatting
-    # what to show when no sessions?
 
     headers = ["ID", "Transport", "Remote Address", "Hostname", "Username", "Operating System", "Health"]
     data = [(session.ID, session.Transport, session.RemoteAddress, session.Hostname, session.Username, session.OS, "[DEAD]" if session.IsDead else "[ALIVE]") for session in sessions]

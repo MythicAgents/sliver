@@ -41,11 +41,11 @@ class Mtls(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help                 display help
+        #        -h, --help                 display help
         # TODO:  -L, --lhost      string    interface to bind server to
         #        -l, --lport      int       tcp listen port (default: 8888)
         # TODO:  -p, --persistent           make persistent across restarts
-        # TODO:  -t, --timeout    int       command timeout in seconds (default: 60)
+        #        -t, --timeout    int       command timeout in seconds (default: 60)
 
         # 'mtls -l <port>'
         port = taskData.args.get_arg('lport')

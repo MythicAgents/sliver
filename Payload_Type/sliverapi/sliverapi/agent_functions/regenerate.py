@@ -4,15 +4,58 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
-# from sliver import common_pb2
+from sliver import SliverClientConfig, SliverClient, client_pb2
+from tabulate import tabulate
 
 class RegenerateArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = []
+        self.args = [
+            CommandParameter(
+                name="implant-name",
+                cli_name="implant-name",
+                display_name="implant-name",
+                description="implant-name",
+                # type=ParameterType.Number,
+                type=ParameterType.ChooseOne,
+                dynamic_query_function=self.get_implants,
+                # default_value=-1,
+                parameter_group_info=[
+                    ParameterGroupInfo(
+                        required=True,
+                        group_name="Default",
+                        ui_position=1
+                    ),
+                ]
+            ),
+        ]
+
+    async def get_implants(self, inputMsg: PTRPCDynamicQueryFunctionMessage) -> PTRPCDynamicQueryFunctionMessageResponse:
+        implant_names = []
+
+        # TODO: this is quick and dirty, could refactor this (and put into SliverAPI file)
+        this_payload = await SendMythicRPCPayloadSearch(MythicRPCPayloadSearchMessage(
+            CallbackID=inputMsg.Callback,
+            PayloadUUID=inputMsg.PayloadUUID
+        ))
+
+        filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
+            AgentFileId=this_payload.Payloads[0].BuildParameters[0].Value
+        ))
+
+        config = SliverClientConfig.parse_config(filecontent.Content)
+        client = SliverClient(config)
+        await client.connect()
+        list_of_implants = await client.implant_builds()
+        for key, value in list_of_implants.items():
+            implant_names.append(key)
+
+        return PTRPCDynamicQueryFunctionMessageResponse(Success=True, Choices=implant_names)
+
+
 
     async def parse_arguments(self):
-        pass
+        self.load_args_from_json_string(self.command_line)
 
 
 class Regenerate(CommandBase):
@@ -38,9 +81,9 @@ class Regenerate(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help              display help
-        # TODO:  -s, --save    string    directory/file to the binary to
-        # TODO:  -t, --timeout int       command timeout in seconds (default: 60)
+        #        -h, --help              display help
+        #        -s, --save    string    directory/file to the binary to
+        #        -t, --timeout int       command timeout in seconds (default: 60)
 
         response = await regenerate(taskData)
 
@@ -63,10 +106,11 @@ class Regenerate(CommandBase):
 
 
 async def regenerate(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
-
-    # regenerate_result = await client.regenerate_implant()
+    client = await SliverAPI.create_sliver_client(taskData)
+    implant_name = taskData.args.get_arg('implant-name')
+    regenerate_result = await client.regenerate_implant(implant_name=implant_name)
+    implant_bytes = regenerate_result.File.Data
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"generated {regenerate_result.File.Name}"

@@ -39,7 +39,7 @@ class Sideload(CommandBase):
         # Flags:
         # ======
         # TODO:  -e, --entry-point       string    Entrypoint for the DLL (Windows only)
-        # TODO:  -h, --help                        display help
+        #        -h, --help                        display help
         # TODO:  -k, --keep-alive                  don't terminate host process once the execution completes
         # TODO:  -X, --loot                        save output as loot
         # TODO:  -n, --name              string    name to assign loot (optional)
@@ -47,7 +47,7 @@ class Sideload(CommandBase):
         # TODO:  -p, --process           string    Path to process to host the shellcode (default: c:\windows\system32\notepad.exe)
         # TODO:  -A, --process-arguments string    arguments to pass to the hosting process
         # TODO:  -s, --save                        save output to file
-        # TODO:  -t, --timeout           int       command timeout in seconds (default: 60)
+        #        -t, --timeout           int       command timeout in seconds (default: 60)
         # TODO:  -w, --unicode                     Command line is passed to unmanaged DLL function in UNICODE format. (default is ANSI)
 
         response = await sideload(taskData)

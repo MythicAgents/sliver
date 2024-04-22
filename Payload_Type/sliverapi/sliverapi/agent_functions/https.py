@@ -38,7 +38,7 @@ class Https(CommandBase):
         # TODO:  -D, --disable-otp                       disable otp authentication
         # TODO:  -E, --disable-randomized-jarm           disable randomized jarm fingerprints
         # TODO:  -d, --domain                  string    limit responses to specific domain
-        # TODO:  -h, --help                              display help
+        #        -h, --help                              display help
         # TODO:  -k, --key                     string    PEM encoded private key file
         # TODO:  -e, --lets-encrypt                      attempt to provision a let's encrypt certificate
         # TODO:  -L, --lhost                   string    interface to bind server to
@@ -46,7 +46,7 @@ class Https(CommandBase):
         # TODO:  -T, --long-poll-timeout       string    server-side long poll timeout (default: 1s)
         # TODO:  -l, --lport                   int       tcp listen port (default: 443)
         # TODO:  -p, --persistent                        make persistent across restarts
-        # TODO:  -t, --timeout                 int       command timeout in seconds (default: 60)
+        #        -t, --timeout                 int       command timeout in seconds (default: 60)
         # TODO:  -w, --website                 string    website name (see websites cmd)
 
         response = await https(taskData)

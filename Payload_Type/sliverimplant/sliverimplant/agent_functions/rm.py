@@ -49,9 +49,9 @@ class Rm(CommandBase):
         # Flags:
         # ======
         # TODO:  -F, --force            ignore safety and forcefully remove files
-        # TODO:  -h, --help             display help
+        #        -h, --help             display help
         # TODO:  -r, --recursive        recursively remove files
-        # TODO:  -t, --timeout   int    command timeout in seconds (default: 60)
+        #        -t, --timeout   int    command timeout in seconds (default: 60)
 
         path_to_rm = taskData.args.get_arg('full_path')
         rm_results = await rm(taskData, path_to_rm)

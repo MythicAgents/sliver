@@ -45,7 +45,7 @@ class ExecuteAssembly(CommandBase):
         # TODO:  -a, --arch              string    Assembly target architecture: x86, x64, x84 (x86+x64) (default: x84)
         # TODO:  -c, --class             string    Optional class name (required for .NET DLL)
         # TODO:  -E, --etw-bypass                  Bypass ETW on Windows (only supported when used with --in-process)
-        # TODO:  -h, --help                        display help
+        #        -h, --help                        display help
         # TODO:  -i, --in-process                  Run in the current sliver process
         # TODO:  -X, --loot                        save output as loot
         # TODO:  -m, --method            string    Optional method (a method is required for a .NET DLL)
@@ -55,7 +55,7 @@ class ExecuteAssembly(CommandBase):
         # TODO:  -A, --process-arguments string    arguments to pass to the hosting process
         # TODO:  -r, --runtime           string    Runtime to use for running the assembly (only supported when used with --in-process)
         # TODO:  -s, --save                        save output to file
-        # TODO:  -t, --timeout           int       command timeout in seconds (default: 60)
+        #        -t, --timeout           int       command timeout in seconds (default: 60)
 
         response = await execute_assembly(taskData)
 

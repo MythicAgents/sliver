@@ -42,14 +42,14 @@ class ExecuteShellcode(CommandBase):
         # Flags:
         # ======
         # TODO:  -A, --architecture   string    architecture of the shellcode: 386, amd64 (used with --shikata-ga-nai flag) (default: amd64)
-        # TODO:  -h, --help                     display help
+        #        -h, --help                     display help
         # TODO:  -i, --interactive              Inject into a new process and interact with it
         # TODO:  -I, --iterations     int       number of encoding iterations (used with --shikata-ga-nai flag) (default: 1)
         # TODO:  -p, --pid            uint      Pid of process to inject into (0 means injection into ourselves) (default: 0)
         # TODO:  -n, --process        string    Process to inject into when running in interactive mode (default: c:\windows\system32\notepad.exe)
         # TODO:  -r, --rwx-pages                Use RWX permissions for memory pages
         # TODO:  -S, --shikata-ga-nai           encode shellcode using shikata ga nai prior to execution
-        # TODO:  -t, --timeout        int       command timeout in seconds (default: 60)
+        #        -t, --timeout        int       command timeout in seconds (default: 60)
 
         response = await execute_shellcode(taskData)
 

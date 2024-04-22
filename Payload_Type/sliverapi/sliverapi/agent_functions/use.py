@@ -45,8 +45,8 @@ class Use(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -h, --help           display help
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============
@@ -111,6 +111,7 @@ async def use(taskData: PTTaskMessageAllData, sliver_id: int):
         }
 
         # TODO: only include 'shell' for interactive sessions, not beacons
+        # print(f"taskid: {taskData.Task.ID}")
 
         new_payload = MythicRPCPayloadCreateFromScratchMessage(
             TaskID=taskData.Task.ID,

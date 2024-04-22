@@ -33,8 +33,8 @@ class Ifconfig(CommandBase):
         # Flags:
         # ======
         # TODO:  -A, --all            show all network adapters (default only shows IPv4)
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -h, --help           display help
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         ifconfig_results = await ifconfig(taskData)
 

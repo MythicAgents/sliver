@@ -35,13 +35,13 @@ class Ps(CommandBase):
         # Flags:
         # ======
         # TODO:  -e, --exe           string    filter based on executable name
-        # TODO:  -h, --help                    display help
+        #        -h, --help                    display help
         # TODO:  -O, --overflow                overflow terminal width (display truncated rows)
         # TODO:  -o, --owner         string    filter based on owner
         # TODO:  -p, --pid           int       filter based on pid (default: -1)
         # TODO:  -c, --print-cmdline           print command line arguments
         # TODO:  -S, --skip-pages    int       skip the first n page(s) (default: 0)
-        # TODO:  -t, --timeout       int       command timeout in seconds (default: 60)
+        #        -t, --timeout       int       command timeout in seconds (default: 60)
         # TODO:  -T, --tree                    print process tree
 
         ps_results = await ps(taskData)

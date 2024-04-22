@@ -39,8 +39,8 @@ class Websites(CommandBase):
 
         # Flags:
         # ======
-        # TODO:  -h, --help           display help
-        # TODO:  -t, --timeout int    command timeout in seconds (default: 60)
+        #        -h, --help           display help
+        #        -t, --timeout int    command timeout in seconds (default: 60)
 
         # Sub Commands:
         # =============
@@ -70,10 +70,19 @@ class Websites(CommandBase):
 
 
 async def websites(taskData: PTTaskMessageAllData):
-    # client = await SliverAPI.create_sliver_client(taskData)
+    client = await SliverAPI.create_sliver_client(taskData)
 
-    # websites_results = await client.websites()
+    websites_results = await client.websites()
+
+    # here generate the html
+    # html = gen()
+    
+    # websites_results = await client.add_website_content(content=html)
+    # websites_results = await client.remove_website()
+    # websites_results = await client.remove_website_content()
+    # websites_results = await client.update_website()
+    # websites_results = await client.update_website_content()
 
     # TODO: match sliver formatting
 
-    return "This command not yet implemented..."
+    return f"{websites_results}"

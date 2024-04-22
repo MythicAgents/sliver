@@ -62,7 +62,7 @@ class SliverImplant(PayloadType):
             GOOS=os,
             Format=client_pb2.OutputFormat.EXECUTABLE,
             ObfuscateSymbols=False,
-            C2=[client_pb2.ImplantC2(Priority=0, URL=f"mtls://{mtls}")],
+            C2=[client_pb2.ImplantC2(Priority=0, URL=f"{mtls}")],
         )
 
         implant = await client.generate_implant(implant_config)
