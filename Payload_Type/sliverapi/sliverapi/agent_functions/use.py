@@ -107,7 +107,8 @@ async def use(taskData: PTTaskMessageAllData, sliver_id: int):
         # create the payload
         # TODO: figure out mappings for windows or mac...
         sliver_os_table = {
-            'linux': 'Linux'
+            'linux': 'Linux',
+            'windows': "Windows"
         }
 
         # TODO: only include 'shell' for interactive sessions, not beacons
@@ -118,7 +119,8 @@ async def use(taskData: PTTaskMessageAllData, sliver_id: int):
             PayloadConfiguration=MythicRPCPayloadConfiguration(
                 payload_type="sliverimplant",
                 uuid=sliver_id,
-                selected_os=sliver_os_table[implant_info.OS],                 
+                # selected_os=sliver_os_table[implant_info.OS],
+                selected_os='Windows',
                 description=f"(no download) using sliver {'beaconing' if isBeacon else 'interactive'} implant for {sliver_id}",
                 build_parameters=[],
                 c2_profiles=[],

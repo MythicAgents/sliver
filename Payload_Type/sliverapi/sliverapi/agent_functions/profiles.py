@@ -383,7 +383,8 @@ async def profiles_generate(taskData: PTTaskMessageAllData):
             break
 
     sliver_os_table = {
-        'linux': 'Linux'
+        'linux': 'Linux',
+        'windows': "Windows"
     }
 
     sliverconfig_file_uuid = taskData.BuildParameters[0].Value
