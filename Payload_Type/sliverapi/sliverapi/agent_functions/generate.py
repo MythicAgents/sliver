@@ -98,7 +98,8 @@ class Generate(CommandBase):
         sliverconfig_file_uuid = taskData.BuildParameters[0].Value
 
         sliver_os_table = {
-            'linux': 'Linux'
+            'linux': 'Linux',
+            'windows': "Windows"
         }
 
         # TODO: include 'shell' for sessions, but not for beaconers

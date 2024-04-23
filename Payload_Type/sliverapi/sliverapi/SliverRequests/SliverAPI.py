@@ -69,7 +69,8 @@ async def handleSliverEvent(event: client_pb2.Event, configFileId):
 
         # create payload
         sliver_os_table = {
-            'linux': 'Linux'
+            'linux': 'Linux',
+            'windows': 'Windows'
         }
 
         # TODO: only include 'shell' for interactive sessions, not beacons
