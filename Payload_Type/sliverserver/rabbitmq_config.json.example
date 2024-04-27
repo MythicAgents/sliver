@@ -1,0 +1,6 @@
+{
+    "rabbitmq_host": "127.0.0.1",
+    "rabbitmq_password": "<paste_password_here>",
+    "mythic_server_host": "127.0.0.1",
+    "debug_level": "debug"
+}

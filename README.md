@@ -6,12 +6,12 @@
 
 This is a set of [Mythic](https://docs.mythic-c2.net/) agents for interacting with [Sliver](https://sliver.sh/) C2 framework.
 
-- `sliverapi`: for interacting with the sliver server (ie: start listeners, list sessions...etc)
+- `sliverserver`: for interacting with the sliver server (ie: start listeners, list sessions...etc)
 - `sliverimplant`: for interacting with a sliver implant (ie: ps, netstat...etc)
 
-The `sliverapi` payload doesn't build anything, but instead generates a "callback" within Mythic that allows you to interact with Sliver's API. This requires you to generate an [operator configuration file](https://sliver.sh/docs?name=Multi-player+Mode). This config file is the only build parameter, and once built, a callback will immediately appear and you can start tasking like normal.
+The `sliverserver` payload doesn't build anything, but instead generates a "callback" within Mythic that allows you to interact with Sliver's API. This requires you to generate an [operator configuration file](https://sliver.sh/docs?name=Multi-player+Mode). This config file is the only build parameter, and once built, a callback will immediately appear and you can start tasking like normal.
 
-A `sliverimplant` callback is instantiated automatically when a session connects, or when tasking a `use -id <sliver_implant_id>` from within the sliverapi callback.
+A `sliverimplant` callback is instantiated automatically when a session connects, or when tasking a `use -id <sliver_implant_id>` from within the sliverserver callback. (see limitations below)
 
 Checkout this [blog](./blog/blog.md) about my experience creating them.
 
@@ -32,6 +32,12 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 # Browse to Mythic and Generate a Payload, select 'sliver' as the OS
 # Upload the mythic.cfg file, continue through prompts and generate
 ```
+
+### Limitations
+
+Currently limited to one mythic operation, this is due to a mythic limitation which enforces RPC calls specify which operation they are in. When `sliverserver` service starts, ideally it would spin off a thread for each operation's payloads to handle events coming from Sliver. We are working on ways around this in the future.
+
+Additionally, for `sliverserver` to create callbacks based on events from Sliver, and not from the 'use' command, it requires at least 1 task has been run. This is because the mythic rpc call to create a callback requires a TaskID, but no mythic tasks prompted this call. Ideally, you could create `sliverserver`, not submit any tasks, and still see implants connecting automatically, but for now, as long as you have run one task within `sliverserver`, it should work. I'm currently hard-coding the TaskID=1.
 
 ## Future Plans / Ideas
 

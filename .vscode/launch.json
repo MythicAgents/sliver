@@ -25,6 +25,17 @@
             "consoleTitle": "SliverImplant",
             "justMyCode": false
         },
+        {
+            "name": "SliverServer",
+            "type": "debugpy",
+            "python": "/usr/local/bin/python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Payload_Type/sliverserver/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/Payload_Type/sliverserver",
+            "consoleTitle": "SliverServer",
+            "justMyCode": false
+        },
     ],
     "compounds": [
         {
