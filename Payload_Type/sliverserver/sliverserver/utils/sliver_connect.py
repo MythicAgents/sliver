@@ -5,6 +5,12 @@ from sliver import SliverClientConfig, SliverClient, client_pb2
 # global 'cache'
 sliver_server_clients: Dict[str, SliverClient] = {}
 
+sliver_os_table_lookup = {
+    'linux': 'Linux',
+    'windows': 'Windows',
+    'darwin': 'macOS'
+}
+
 
 async def connect_and_store_sliver_client(payload_uuid, config_file):
     config = SliverClientConfig.parse_config(config_file)

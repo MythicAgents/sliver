@@ -37,7 +37,7 @@ sudo ./mythic-cli install github https://github.com/MythicAgents/sliver
 
 Currently limited to one mythic operation, this is due to a mythic limitation which enforces RPC calls specify which operation they are in. When `sliverserver` service starts, ideally it would spin off a thread for each operation's payloads to handle events coming from Sliver. We are working on ways around this in the future.
 
-Additionally, for `sliverserver` to create callbacks based on events from Sliver, and not from the 'use' command, it requires at least 1 task has been run. This is because the mythic rpc call to create a callback requires a TaskID, but no mythic tasks prompted this call. Ideally, you could create `sliverserver`, not submit any tasks, and still see implants connecting automatically, but for now, as long as you have run one task within `sliverserver`, it should work. I'm currently hard-coding the TaskID=1.
+Additionally, for `sliverserver` to create callbacks based on events from Sliver, and not from the 'use' command, it requires at least 1 task has been run. This is because the mythic rpc call to create a callback requires a TaskID (also to figure out the operation), but no mythic tasks prompted this call. Ideally, you could create `sliverserver`, not submit any tasks, and still see implants connecting automatically, but for now, as long as you have run one task within `sliverserver`, it should work. I'm currently hard-coding the CallbackID=1 and TaskID=1.
 
 ## Future Plans / Ideas
 

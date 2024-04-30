@@ -36,6 +36,17 @@
             "consoleTitle": "SliverServer",
             "justMyCode": false
         },
+        {
+            "name": "SliverImplant2",
+            "type": "debugpy",
+            "python": "/usr/local/bin/python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Payload_Type/sliverimplant2/main.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/Payload_Type/sliverimplant2",
+            "consoleTitle": "SliverImplant2",
+            "justMyCode": false
+        },
     ],
     "compounds": [
         {
@@ -43,6 +54,13 @@
             "configurations": [
                 "SliverApi",
                 "SliverImplant"
+            ]
+        },
+        {
+            "name": "SliverServer && SliverImplant2",
+            "configurations": [
+                "SliverServer",
+                "SliverImplant2"
             ]
         }
     ]
