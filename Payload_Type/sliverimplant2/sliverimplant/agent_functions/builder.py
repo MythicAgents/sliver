@@ -59,9 +59,26 @@ async def recreate_sliver_clients_and_sync():
     ))
 
     for sliverimplant_payload in payload_search_results.Payloads:
+        # check if already 'disconnected' as far as Mythic knows, if so, don't create the sliver client + interact
+        callbacks = await SendMythicRPCCallbackSearch(MythicRPCCallbackSearchMessage(
+            AgentCallbackID=1,
+            SearchCallbackExtraInfo=sliverimplant_payload.UUID
+        ))
+        if (callbacks.Results[0].IntegrityLevel == -1):
+            continue
+
+        # mythic thinks connected, connect to sliver using config file, and attempt to create the 'interact'
         filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
             AgentFileId=sliverimplant_payload.BuildParameters[0].Value
         ))
         await connect_and_store_sliver_client(sliverimplant_payload.BuildParameters[0].Value, filecontent.Content)
-        await connect_and_store_sliver_interact(sliverimplant_payload.BuildParameters[0].Value, sliverimplant_payload.UUID)
+        interact = await connect_and_store_sliver_interact(sliverimplant_payload.BuildParameters[0].Value, sliverimplant_payload.UUID)
+
+        if (interact == None):
+            # mythic thought connected, sliver now saying 'disconnected', update the callback
+            await SendMythicRPCCallbackUpdate(MythicRPCCallbackUpdateMessage(
+                CallbackID=callbacks.Results[0].ID,
+                Description='disconnected!',
+                IntegrityLevel=-1,
+            ))
 

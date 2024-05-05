@@ -5,6 +5,7 @@
 
 - would be cool that beacon results if tasked through sliver were picked up in Mythic
     - already possible by looking at Events!
+    - probably won't do, will likely just use 'tasks' or something like that...
 
 - Need a lot more work to correctly handle task results from windows implants
     - some things simply print
@@ -21,6 +22,6 @@
 
 - Beacon checkin status?
 
-
+- 'clear' can cancel issued tasks not yet picked up by beaconers
 
 

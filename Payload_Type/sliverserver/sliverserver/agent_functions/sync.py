@@ -88,7 +88,7 @@ async def sync_callbacks_from_sliver(client: SliverClient, slivercfg_fileid: str
                 Host=currentSessionInSliver.Hostname,
                 User=currentSessionInSliver.Username,
                 Ip=currentSessionInSliver.RemoteAddress.split(':')[0],
-                ExtraInfo="",
+                ExtraInfo=currentSessionInSliver.ID,
                 PID=currentSessionInSliver.PID
             ))
 
@@ -128,7 +128,8 @@ async def sync_callbacks_from_sliver(client: SliverClient, slivercfg_fileid: str
                 Host=currentBeaconInSliver.Hostname,
                 User=currentBeaconInSliver.Username,
                 Ip=currentBeaconInSliver.RemoteAddress.split(':')[0],
-                ExtraInfo="",
+                ExtraInfo=currentBeaconInSliver.ID,
                 PID=currentBeaconInSliver.PID,
             ))
 
+    # TODO: for payloads in Mythic that are no longer in sliver, mark them as 'disconnected'

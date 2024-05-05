@@ -11,7 +11,7 @@ This is a set of [Mythic](https://docs.mythic-c2.net/) agents for interacting wi
 
 The `sliverserver` payload doesn't build anything, but instead generates a "callback" within Mythic that allows you to interact with Sliver's API. This requires you to generate an [operator configuration file](https://sliver.sh/docs?name=Multi-player+Mode). This config file is the only build parameter, and once built, a callback will immediately appear and you can start tasking like normal.
 
-A `sliverimplant` callback is instantiated automatically when a session connects, or when tasking a `use -id <sliver_implant_id>` from within the sliverserver callback. (see limitations below)
+A `sliverimplant` callback is instantiated automatically when a session connects, or when tasking a `sync` from within the sliverserver callback. (see limitations below)
 
 Checkout this [blog](./blog/blog.md) about my experience creating them.
 

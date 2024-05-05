@@ -66,7 +66,7 @@ class SliverServer(PayloadType):
         ))
 
         # Once this is done, commands will have a connected client available to use
-        client = await connect_and_store_sliver_client(self.uuid, filecontent.Content)
+        client = await connect_and_store_sliver_client(self.uuid, filecontent.Content, self.get_parameter('configfile_id'))
 
         # populate Mythic with any callbacks (sessions and beacons) sliver already has
         # TODO: use this function when limitations no longer an issue
@@ -93,7 +93,7 @@ async def recreate_sliver_clients_and_sync():
         filecontent = await SendMythicRPCFileGetContent(MythicRPCFileGetContentMessage(
             AgentFileId=sliverserver_payload.BuildParameters[0].Value
         ))
-        client = await connect_and_store_sliver_client(sliverserver_payload.UUID, filecontent.Content)
+        client = await connect_and_store_sliver_client(sliverserver_payload.UUID, filecontent.Content, sliverserver_payload.BuildParameters[0].Value)
 
         # TODO: use this function when limitations no longer an issue
         # await sync_callbacks_from_sliver(client, sliverserver_payload.BuildParameters[0].Value)
