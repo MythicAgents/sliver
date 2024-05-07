@@ -2,10 +2,12 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+from tabulate import tabulate
+
 from sliver import InteractiveBeacon
 from ..utils.sliver_connect import sliver_implant_clients
 
-class PwdArguments(TaskArguments):
+class IfconfigArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = []
@@ -13,18 +15,18 @@ class PwdArguments(TaskArguments):
     async def parse_arguments(self):
         pass
 
-class Pwd(CommandBase):
-    cmd = "pwd"
+class Ifconfig(CommandBase):
+    cmd = "ifconfig"
     needs_admin = False
-    help_cmd = "pwd"
-    description = "Print working directory of the active session."
+    help_cmd = "ifconfig"
+    description = "View network interface configurations"
     version = 1
     author = "Spencer Adolph"
-    argument_class = PwdArguments
+    argument_class = IfconfigArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        await pwd(taskData)
+        await ifconfig(taskData)
 
         taskResponse = MythicCommandBase.PTTaskCreateTaskingMessageResponse(
             TaskID=taskData.Task.ID,
@@ -37,19 +39,23 @@ class Pwd(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
 
-async def pwd(taskData: PTTaskMessageAllData):
+async def ifconfig(taskData: PTTaskMessageAllData):
     interact = sliver_implant_clients[f"{taskData.Payload.UUID}"]
 
-    pwd_results = await interact.pwd()
+    ifconfig_results = await interact.ifconfig()
 
     if (isinstance(interact, InteractiveBeacon)):
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
             Response="issued task, awaiting results\n".encode("UTF8"),
         ))
-        pwd_results = await pwd_results
+        ifconfig_results = await ifconfig_results
+
+    headers = ["Interface", "Ip Address(s)", "MAC Address"]
+    data = [(interface.Name, interface.IPAddresses, interface.MAC) for interface in ifconfig_results.NetInterfaces]
+    table = tabulate(data, headers=headers)
 
     await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
         TaskID=taskData.Task.ID,
-        Response=f"{pwd_results}".encode("UTF8"),
+        Response=table.encode("UTF8"),
     ))

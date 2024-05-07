@@ -2,29 +2,37 @@ from mythic_container.MythicCommandBase import *
 from mythic_container.MythicRPC import *
 from mythic_container.PayloadBuilder import *
 
+import gzip
+
 from sliver import InteractiveBeacon
 from ..utils.sliver_connect import sliver_implant_clients
 
-class PwdArguments(TaskArguments):
+class CatArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = []
+        self.args = [
+            CommandParameter(
+                name="remote_path",
+                description="path to file",
+                type=ParameterType.String
+            ),
+        ]
 
     async def parse_arguments(self):
-        pass
+        self.load_args_from_json_string(self.command_line)
 
-class Pwd(CommandBase):
-    cmd = "pwd"
+class Cat(CommandBase):
+    cmd = "cat"
     needs_admin = False
-    help_cmd = "pwd"
-    description = "Print working directory of the active session."
+    help_cmd = "cat"
+    description = "cat a file (doesn't download)"
     version = 1
     author = "Spencer Adolph"
-    argument_class = PwdArguments
+    argument_class = CatArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        await pwd(taskData)
+        await cat(taskData)
 
         taskResponse = MythicCommandBase.PTTaskCreateTaskingMessageResponse(
             TaskID=taskData.Task.ID,
@@ -37,19 +45,23 @@ class Pwd(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
 
-async def pwd(taskData: PTTaskMessageAllData):
+async def cat(taskData: PTTaskMessageAllData):
     interact = sliver_implant_clients[f"{taskData.Payload.UUID}"]
 
-    pwd_results = await interact.pwd()
+    remote_path = taskData.args.get_arg('remote_path')
+
+    download_results = await interact.download(remote_path=remote_path)
 
     if (isinstance(interact, InteractiveBeacon)):
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
             Response="issued task, awaiting results\n".encode("UTF8"),
         ))
-        pwd_results = await pwd_results
+        download_results = await download_results
+
+    plaintext = gzip.decompress(download_results.Data)
 
     await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
         TaskID=taskData.Task.ID,
-        Response=f"{pwd_results}".encode("UTF8"),
+        Response=f"{plaintext.decode('utf-8')}".encode("UTF8"),
     ))

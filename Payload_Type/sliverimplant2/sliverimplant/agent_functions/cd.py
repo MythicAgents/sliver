@@ -5,26 +5,32 @@ from mythic_container.PayloadBuilder import *
 from sliver import InteractiveBeacon
 from ..utils.sliver_connect import sliver_implant_clients
 
-class PwdArguments(TaskArguments):
+class CdArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
-        self.args = []
+        self.args = [
+            CommandParameter(
+                name="remote_path",
+                description="path to the directory",
+                type=ParameterType.String
+            ),
+        ]
 
     async def parse_arguments(self):
-        pass
+        self.load_args_from_json_string(self.command_line)
 
-class Pwd(CommandBase):
-    cmd = "pwd"
+class Cd(CommandBase):
+    cmd = "cd"
     needs_admin = False
-    help_cmd = "pwd"
-    description = "Print working directory of the active session."
+    help_cmd = "cd"
+    description = "Change directories"
     version = 1
     author = "Spencer Adolph"
-    argument_class = PwdArguments
+    argument_class = CdArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
-        await pwd(taskData)
+        await cd(taskData)
 
         taskResponse = MythicCommandBase.PTTaskCreateTaskingMessageResponse(
             TaskID=taskData.Task.ID,
@@ -37,19 +43,21 @@ class Pwd(CommandBase):
         resp = PTTaskProcessResponseMessageResponse(TaskID=task.Task.ID, Success=True)
         return resp
 
-async def pwd(taskData: PTTaskMessageAllData):
+async def cd(taskData: PTTaskMessageAllData):
     interact = sliver_implant_clients[f"{taskData.Payload.UUID}"]
 
-    pwd_results = await interact.pwd()
+    remote_path = taskData.args.get_arg('remote_path')
+
+    cd_results = await interact.cd(remote_path=remote_path)
 
     if (isinstance(interact, InteractiveBeacon)):
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
             Response="issued task, awaiting results\n".encode("UTF8"),
         ))
-        pwd_results = await pwd_results
+        cd_results = await cd_results
 
     await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
         TaskID=taskData.Task.ID,
-        Response=f"{pwd_results}".encode("UTF8"),
+        Response=f"{cd_results}".encode("UTF8"),
     ))

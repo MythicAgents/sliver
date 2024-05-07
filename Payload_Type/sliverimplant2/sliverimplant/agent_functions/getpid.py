@@ -4,21 +4,22 @@ from mythic_container.PayloadBuilder import *
 
 from ..utils.sliver_connect import sliver_implant_clients
 
-class GetgidArguments(TaskArguments):
+class GetpidArguments(TaskArguments):
     def __init__(self, command_line, **kwargs):
         super().__init__(command_line, **kwargs)
         self.args = []
 
     async def parse_arguments(self):
         pass
-class Getgid(CommandBase):
-    cmd = "getgid"
+
+class Getpid(CommandBase):
+    cmd = "getpid"
     needs_admin = False
-    help_cmd = "getgid"
-    description = "Get session process GID"
+    help_cmd = "getpid"
+    description = "Get session pid"
     version = 1
     author = "Spencer Adolph"
-    argument_class = GetgidArguments
+    argument_class = GetpidArguments
     attackmapping = []
 
     async def create_go_tasking(self, taskData: MythicCommandBase.PTTaskMessageAllData) -> MythicCommandBase.PTTaskCreateTaskingMessageResponse:
@@ -26,7 +27,7 @@ class Getgid(CommandBase):
 
         await SendMythicRPCResponseCreate(MythicRPCResponseCreateMessage(
             TaskID=taskData.Task.ID,
-            Response=f"{interact.gid}".encode("UTF8"),
+            Response=f"{interact.pid}".encode("UTF8"),
         ))
 
         taskResponse = MythicCommandBase.PTTaskCreateTaskingMessageResponse(
